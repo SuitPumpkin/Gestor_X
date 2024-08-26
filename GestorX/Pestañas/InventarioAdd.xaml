@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="GestorX.Pestañas.InventarioAdd"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:local="clr-namespace:GestorX.Pestañas"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="630">
+    <Grid>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Window.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="Tarjeta" 
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                         From="0.1" To="1" Duration="0:0:0.5">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseInOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="Tarjeta" 
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                         From="0.1" To="1" Duration="0:0:0.5">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseInOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+        <!--Tarjeta-->
+        <Border x:Name="Tarjeta" Background="White" BorderThickness="4" CornerRadius="8" Width="398" Height="406" Margin="35,0,0,0" RenderTransformOrigin="0.5,0.5">
+            <Border.Effect>
+                <DropShadowEffect Opacity="0.25" BlurRadius="10"/>
+            </Border.Effect>
+            <Grid>
+                <!-- Foto-->
+                <Border BorderBrush="#ddd" Background="White" BorderThickness="1" CornerRadius="4,4,0,0" Height="160" Width="216" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Padding="5,5,5,0" MouseLeftButtonDown="Preview_MouseLeftButtonDown" Cursor="Hand">
+                    <Grid>
+                        <fa:IconBlock x:Name="IconoPrevio" Icon="LayerGroup" IconFont="Solid" FontSize="140" Opacity="0.7"/>
+                        <Image x:Name="Preview" Width="206" Height="155" Stretch="Uniform"/>
+                    </Grid>
+                </Border>
+                <!-- Nombre-->
+                <Border Background="#dddd" CornerRadius="0,0,4,4" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="216" Margin="10,170,0,0">
+                    <Grid>
+                        <hc:TextBox x:Name="Nombre" hc:InfoElement.Placeholder="Pepito Lopez" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,5,0,0" BorderBrush="Transparent"/>
+                        <hc:OutlineText Stroke="#dddd" FontWeight="Bold" StrokeThickness="5" Text="Nombre" FontSize="12" Margin="5,-10,0,0"/>
+                        <hc:OutlineText Stroke="Transparent" FontWeight="Bold" StrokeThickness="5" Text="Nombre" FontSize="12" Margin="5,-10,0,0"/>
+                    </Grid>
+                </Border>
+                <!-- Cantidad-->
+                <Border Background="#dddd" CornerRadius="4" VerticalAlignment="Top" HorizontalAlignment="Left" Height="27" Width="144" Margin="236,20,0,0">
+                    <Grid>
+                        <hc:NumericUpDown x:Name="Cantidad" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,5,0,0" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderThickness="0"/>
+                        <hc:OutlineText Stroke="#dddd" FontWeight="Bold" StrokeThickness="6" Text="Cantidad" FontSize="12" Margin="5,-10,0,0"/>
+                        <hc:OutlineText Stroke="Transparent" FontWeight="Bold" StrokeThickness="6" Text="Cantidad" FontSize="12" Margin="5,-10,0,0"/>
+                    </Grid>
+                </Border>
+                <!-- Unidad de Medida-->
+                <Border Background="#dddd" CornerRadius="4" VerticalAlignment="Top" HorizontalAlignment="Left" Height="27" Width="144" Margin="236,70,0,0">
+                    <Grid>
+                        <TextBox x:Name="Unidad" hc:InfoElement.Placeholder="Litros" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,5,0,0" BorderBrush="Transparent" InputScope="EmailSmtpAddress"/>
+                        <hc:OutlineText Stroke="#dddd" FontWeight="Bold" StrokeThickness="6" Text="Unidad De Medida" FontSize="12" Margin="5,-10,0,0"/>
+                        <hc:OutlineText Stroke="Transparent" FontWeight="Bold" StrokeThickness="6" Text="Unidad De Medida" FontSize="12" Margin="5,-10,0,0"/>
+                    </Grid>
+                </Border>
+                <!-- Costo-->
+                <Border Background="#dddd" CornerRadius="4" VerticalAlignment="Top" HorizontalAlignment="Left" Height="27" Width="144" Margin="236,120,0,0">
+                    <Grid>
+                        <hc:NumericUpDown x:Name="Costo" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,5,0,0" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderThickness="0"/>
+                        <hc:OutlineText Stroke="#dddd" FontWeight="Bold" StrokeThickness="6" Text="Costo por unidad" FontSize="12" Margin="5,-10,0,0"/>
+                        <hc:OutlineText Stroke="Transparent" FontWeight="Bold" StrokeThickness="6" Text="Costo por unidad" FontSize="12" Margin="5,-10,0,0"/>
+                    </Grid>
+                </Border>
+                <!-- Proveedor-->
+                <Border Background="#dddd" CornerRadius="0,0,0,4" VerticalAlignment="Top" HorizontalAlignment="Left" Height="27" Width="144" Margin="236,170,0,0">
+                    <Grid>
+                        <hc:ComboBox x:Name="Proveedor" hc:InfoElement.Placeholder="Seleccionar" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,5,0,0" BorderThickness="0" Cursor="Hand" ItemsSource="{Binding itemsprovedor}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Nombre}" ToolTip="{Binding Descripción}" Cursor="Hand"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </hc:ComboBox>
+                        <hc:OutlineText Stroke="#dddd" FontWeight="Bold" StrokeThickness="6" Text="Proveedor" FontSize="12" Margin="5,-10,0,0"/>
+                        <hc:OutlineText Stroke="Transparent" FontWeight="Bold" StrokeThickness="6" Text="Proveedor" FontSize="12" Margin="5,-10,0,0"/>
+                    </Grid>
+                </Border>
+                <!-- Descripción-->
+                <Border Background="#dddd" CornerRadius="4" VerticalAlignment="Top" HorizontalAlignment="Center" Height="171" Width="370" Margin="0,217,0,0">
+                    <Grid>
+                        <hc:TextBox hc:InfoElement.Placeholder="Bla Bla Bla..." AcceptsReturn="True" x:Name="Descripción" Background="Transparent" Foreground="#262626" Opacity="0.6" TextAlignment="Justify" FontSize="12" VerticalScrollBarVisibility="Auto" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="Wrap" BorderBrush="Transparent" Height="164"/>
+                        <hc:OutlineText Stroke="#dddd" FontWeight="Bold" StrokeThickness="6" Text="Descripción" FontSize="14" Margin="5,-10,0,0"/>
+                        <hc:OutlineText Stroke="Transparent" FontWeight="Bold" StrokeThickness="6" Text="Descripción" FontSize="14" Margin="5,-10,0,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        <!-- Botones-->
+        <hc:TransitioningContentControl>
+            <hc:UniformSpacingPanel HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="10" Orientation="Vertical" Width="83" Margin="0,0,10,0">
+                <hc:UniformSpacingPanel.Resources>
+                    <Style x:Key="Botón" TargetType="Border">
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderBrush" Value="White"/>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="CornerRadius" Value="4"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation  Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF0078D7" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="White" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </hc:UniformSpacingPanel.Resources>
+                <Border Style="{StaticResource Botón}" MouseLeftButtonDown="Guardar" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <fa:IconBlock Icon="Save" Foreground="#262626" FontSize="16" VerticalAlignment="Center" IconFont="Solid" Margin="5,0,5,0"/>
+                        <TextBlock FontSize="12" Foreground="#262626" Text="Guardar" VerticalAlignment="Center" FontWeight="Black" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Botón}" MouseLeftButtonDown="Cancelar" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <fa:IconBlock Icon="Cancel" Foreground="#262626" FontSize="14" VerticalAlignment="Center" IconFont="Solid" Margin="5,0,5,0"/>
+                        <TextBlock FontSize="12" Foreground="#262626" Text="Cancelar" VerticalAlignment="Center" FontWeight="Black" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="Duplicador" Visibility="Hidden" Style="{StaticResource Botón}" MouseLeftButtonDown="Duplicar" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <fa:IconBlock Icon="Copy" Foreground="#262626" FontSize="14" VerticalAlignment="Center" IconFont="Solid" Margin="5,0,5,0"/>
+                        <TextBlock FontSize="12" Foreground="#262626" Text="Duplicar" VerticalAlignment="Center" FontWeight="Black" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="Borrador" Visibility="Hidden" Style="{StaticResource Botón}" MouseLeftButtonDown="RemoverDeInventario" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <fa:IconBlock Icon="Trash" Foreground="#262626" FontSize="14" VerticalAlignment="Center" IconFont="Solid" Margin="5,0,5,0"/>
+                        <TextBlock FontSize="12" Foreground="#262626" Text="Remover" VerticalAlignment="Center" FontWeight="Black" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Border>
+            </hc:UniformSpacingPanel>
+        </hc:TransitioningContentControl>
+    </Grid>
+</UserControl>
