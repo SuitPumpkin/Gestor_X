@@ -50,136 +50,100 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
+        <DrawingImage x:Key="Papel">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V389 H268 V0 H0 Z">
+                    <GeometryDrawing Geometry="F1 M268,389z M0,0z M0,376.943L0,6.38895 8.375,8.66521E-05 16.75,6.38895 25.125,8.66521E-05 33.5,6.38895 41.875,8.66521E-05 50.25,6.38895 58.625,8.66521E-05 67,6.38895 75.375,8.66521E-05 83.75,6.38895 92.125,8.66521E-05 100.5,6.38895 108.875,8.66521E-05 117.25,6.38895 125.625,8.66521E-05 134,6.38895 142.375,0 150.75,6.38886 159.125,0 167.5,6.38886 175.875,0 184.25,6.38886 192.625,0 201,6.38886 209.375,0 217.75,6.38886 226.125,0 234.5,6.38886 242.875,0 251.25,6.38886 259.625,0 268,6.38886 268,376.943 268,382.611 259.625,389 251.25,382.611 242.875,389 234.5,382.611 226.125,389 217.75,382.611 209.375,389 201,382.611 192.625,389 184.25,382.611 175.875,389 167.5,382.611 159.125,389 150.75,382.611 142.375,389 134,382.611 125.625,389 117.25,382.611 108.875,389 100.5,382.611 92.125,389 83.75,382.611 75.375,389 67,382.611 58.625,389 50.25,382.611 41.875,389 33.5,382.611 25.125,389 16.75,382.611 8.375,389 3.10678E-07,382.611 0,376.943z">
+                        <GeometryDrawing.Brush>
+                            <LinearGradientBrush StartPoint="268,4.5184" EndPoint="-26.8004,362.405" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1">
+                                <GradientStop Color="#FFFFFFFF" Offset="0" />
+                                <GradientStop Color="#FFFFFBF7" Offset="1" />
+                            </LinearGradientBrush>
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="Cinta">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V131 H131 V0 H0 Z">
+                    <GeometryDrawing Geometry="F1 M131,131z M0,0z M107.929,128.215L1.82931,22.1157 0.78025,19.5061 3.38981,20.5552 2.34075,17.9456 4.95031,18.9947 3.90125,16.3851 6.51081,17.4342 5.46175,14.8246 8.07131,15.8737 7.02225,13.2641 9.63181,14.3132 8.58275,11.7036 11.1923,12.7527 10.1432,10.1431 12.7528,11.1922 11.7038,8.58265 14.3133,9.6317 13.2643,7.02215 15.8738,8.0712 14.8248,5.46165 17.4343,6.5107 16.3853,3.90115 18.9948,4.9502 17.9458,2.34065 20.5553,3.3897 19.5063,0.780145 22.1158,1.8292 128.216,107.929 129.839,109.552 130.888,112.161 128.278,111.112 129.327,113.722 126.718,112.673 127.767,115.282 125.157,114.233 126.206,116.843 123.597,115.794 124.646,118.403 122.036,117.354 123.085,119.964 120.475,118.915 121.525,121.524 118.915,120.475 119.964,123.085 117.354,122.036 118.404,124.645 115.794,123.596 116.843,126.206 114.233,125.157 115.283,127.766 112.673,126.717 113.722,129.327 111.112,128.278 112.162,130.887 109.552,129.838 107.929,128.215z">
+                        <GeometryDrawing.Brush>
+                            <SolidColorBrush Color="#FFF0F0F0" Opacity="0.38" />
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
     </UserControl.Resources>
     <Grid>
-        <hc:TransitioningContentControl TransitionMode="Bottom2TopWithFade">
-            <hc:TransitioningContentControl.TransitionStoryboard>
-                <Storyboard BeginTime="0:0:0.2">
-                    <DoubleAnimation From="0" To="1" Duration="0:0:0.4" Storyboard.TargetProperty="(UIElement.Opacity)">
-                        <DoubleAnimation.EasingFunction>
-                            <CubicEase EasingMode="EaseOut"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                    <DoubleAnimation From="50" To="0" Duration="0:0:0.6" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
-                        <DoubleAnimation.EasingFunction>
-                            <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                </Storyboard>
-            </hc:TransitioningContentControl.TransitionStoryboard>
-            <Border Background="White" BorderThickness="3" Padding="15" CornerRadius="8" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,15,10" Cursor="Hand">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="#262626" Opacity="0.75"/>
-                </Border.BorderBrush>
-                <Grid>
-                    <hc:OutlineText Text="Agenda" Stroke="#FFD6D6D6" StrokeThickness="10" FontWeight="Black" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0"/>
-                    <hc:OutlineText Text="Agenda" Fill="#262626" Stroke="Transparent" StrokeThickness="10" FontWeight="Black" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0" Opacity="0.7"/>
-                    <hc:UniformSpacingPanel Spacing="10" Orientation="Horizontal" Margin="0,10,0,0">
-                        <Grid Width="90" Height="60" Opacity="0.5">
-                            <Grid Margin="60,-15,0,0">
-                                <hc:OutlineText x:Name="T1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                                <hc:OutlineText x:Name="T2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+        <hc:TransitioningContentControl TransitionMode="Left2RightWithFade">
+            <Border Background="#FFFDD0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center" Margin="0,240,320,0">
+                <Border.Effect>
+                    <DropShadowEffect Opacity="0.25"/>
+                </Border.Effect>
+                <Grid Width="260" Height="155" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <hc:UniformSpacingPanel Spacing="20" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <hc:UniformSpacingPanel Spacing="40" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Grid Width="90" Height="60" Opacity="0.5" Margin="-5,10,0,0" HorizontalAlignment="Center">
+                                <Grid Margin="60,-15,0,0">
+                                    <hc:OutlineText x:Name="S1" Text="x120" HorizontalAlignment="Left" TextAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                    <hc:OutlineText x:Name="S2" Text="x120" HorizontalAlignment="Left" TextAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                </Grid>
+                                <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <fa:IconBlock Icon="LayerGroup" IconFont="Solid" FontSize="40"/>
+                                    <TextBlock Text="Proyectos" FontWeight="Black" HorizontalAlignment="Center" FontSize="13" Margin="4,0,0,0"/>
+                                </hc:UniformSpacingPanel>
                             </Grid>
-                            <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <fa:IconBlock Icon="Briefcase" IconFont="Solid" FontSize="40"/>
-                                <TextBlock Text="Trabajadores" FontWeight="Black" HorizontalAlignment="Center" FontSize="13"/>
-                            </hc:UniformSpacingPanel>
-                        </Grid>
-                        <Grid Width="90" Height="60" Opacity="0.5">
-                            <Grid Margin="60,-15,0,0">
-                                <hc:OutlineText x:Name="C1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                                <hc:OutlineText x:Name="C2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                            <Grid Width="90" Height="60" Opacity="0.5" Margin="-5,10,0,0" HorizontalAlignment="Center">
+                                <Grid Margin="60,-15,0,0">
+                                    <hc:OutlineText x:Name="I1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                    <hc:OutlineText x:Name="I2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                </Grid>
+                                <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-10,0">
+                                    <fa:IconBlock Icon="Box" IconFont="Solid" FontSize="40"/>
+                                    <TextBlock Text="Items Guardados" FontWeight="Black" TextAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
+                                </hc:UniformSpacingPanel>
                             </Grid>
-                            <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <fa:IconBlock Icon="User" IconFont="Solid" FontSize="40"/>
-                                <TextBlock Text="Clientes" FontWeight="Black" HorizontalAlignment="Center" FontSize="13"/>
+                        </hc:UniformSpacingPanel>
+                        <Viewbox Width="240">
+                            <hc:UniformSpacingPanel Spacing="10" Orientation="Horizontal">
+                                <Grid Width="90" Height="60" Opacity="0.5">
+                                    <Grid Margin="60,-15,0,0">
+                                        <hc:OutlineText x:Name="T1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                        <hc:OutlineText x:Name="T2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                    </Grid>
+                                    <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <fa:IconBlock Icon="Briefcase" IconFont="Solid" FontSize="40"/>
+                                        <TextBlock Text="Trabajadores" FontWeight="Black" HorizontalAlignment="Center" FontSize="13"/>
+                                    </hc:UniformSpacingPanel>
+                                </Grid>
+                                <Grid Width="90" Height="60" Opacity="0.5">
+                                    <Grid Margin="60,-15,0,0">
+                                        <hc:OutlineText x:Name="C1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                        <hc:OutlineText x:Name="C2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                    </Grid>
+                                    <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <fa:IconBlock Icon="User" IconFont="Solid" FontSize="40"/>
+                                        <TextBlock Text="Clientes" FontWeight="Black" HorizontalAlignment="Center" FontSize="13"/>
+                                    </hc:UniformSpacingPanel>
+                                </Grid>
+                                <Grid Width="90" Height="60" Opacity="0.5">
+                                    <Grid Margin="60,-15,0,0">
+                                        <hc:OutlineText x:Name="P1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                        <hc:OutlineText x:Name="P2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
+                                    </Grid>
+                                    <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <fa:IconBlock Icon="Boxes" IconFont="Solid" FontSize="40"/>
+                                        <TextBlock Text="Proveedores" FontWeight="Black" HorizontalAlignment="Center" FontSize="13"/>
+                                    </hc:UniformSpacingPanel>
+                                </Grid>
                             </hc:UniformSpacingPanel>
-                        </Grid>
-                        <Grid Width="90" Height="60" Opacity="0.5">
-                            <Grid Margin="60,-15,0,0">
-                                <hc:OutlineText x:Name="P1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                                <hc:OutlineText x:Name="P2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                            </Grid>
-                            <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <fa:IconBlock Icon="Boxes" IconFont="Solid" FontSize="40"/>
-                                <TextBlock Text="Proveedores" FontWeight="Black" HorizontalAlignment="Center" FontSize="13"/>
-                            </hc:UniformSpacingPanel>
-                        </Grid>
+                        </Viewbox>
                     </hc:UniformSpacingPanel>
                 </Grid>
             </Border>
-        </hc:TransitioningContentControl>
-        <hc:TransitioningContentControl TransitionMode="Bottom2TopWithFade">
-            <hc:TransitioningContentControl.TransitionStoryboard>
-                <Storyboard BeginTime="0:0:0.1">
-                    <DoubleAnimation From="0" To="1" Duration="0:0:0.4" Storyboard.TargetProperty="(UIElement.Opacity)">
-                        <DoubleAnimation.EasingFunction>
-                            <CubicEase EasingMode="EaseOut"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                    <DoubleAnimation From="50" To="0" Duration="0:0:0.6" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
-                        <DoubleAnimation.EasingFunction>
-                            <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                </Storyboard>
-            </hc:TransitioningContentControl.TransitionStoryboard>
-            <Border Background="White" BorderThickness="3" Padding="15" CornerRadius="8" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,202.5,10" Cursor="Hand">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="#262626" Opacity="0.75"/>
-                </Border.BorderBrush>
-                <Grid>
-                    <hc:OutlineText Text="Inventario" Stroke="#FFD6D6D6" StrokeThickness="10" FontWeight="Black" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0"/>
-                    <hc:OutlineText Text="Inventario" Fill="#262626" Stroke="Transparent" StrokeThickness="10" FontWeight="Black" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0" Opacity="0.7"/>
-                    <Grid Width="90" Height="60" Opacity="0.5" Margin="-5,10,0,0" HorizontalAlignment="Center">
-                        <Grid Margin="60,-15,0,0">
-                            <hc:OutlineText x:Name="I1" Text="x120" HorizontalAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                            <hc:OutlineText x:Name="I2" Text="x120" HorizontalAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                        </Grid>
-                        <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,-10,0">
-                            <fa:IconBlock Icon="Box" IconFont="Solid" FontSize="40"/>
-                            <TextBlock Text="Items Guardados" FontWeight="Black" TextAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
-                        </hc:UniformSpacingPanel>
-                    </Grid>
-                </Grid>
-            </Border>
-        </hc:TransitioningContentControl>
-        <hc:TransitioningContentControl TransitionMode="Bottom2TopWithFade">
-            <hc:TransitioningContentControl.TransitionStoryboard>
-                <Storyboard BeginTime="0:0:0">
-                    <DoubleAnimation From="0" To="1" Duration="0:0:0.4" Storyboard.TargetProperty="(UIElement.Opacity)">
-                        <DoubleAnimation.EasingFunction>
-                            <CubicEase EasingMode="EaseOut"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                    <DoubleAnimation From="50" To="0" Duration="0:0:0.6" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
-                        <DoubleAnimation.EasingFunction>
-                            <ElasticEase EasingMode="EaseOut" Oscillations="2" Springiness="5"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                </Storyboard>
-            </hc:TransitioningContentControl.TransitionStoryboard>
-            <Border Background="White" BorderThickness="3" Padding="15" CornerRadius="8" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="15,0,0,10" Cursor="Hand">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="#262626" Opacity="0.75"/>
-                </Border.BorderBrush>
-                <Grid>
-                    <hc:OutlineText Text="Proyectos" Stroke="#FFD6D6D6" StrokeThickness="10" FontWeight="Black" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0"/>
-                    <hc:OutlineText Text="Proyectos" Fill="#262626" Stroke="Transparent" StrokeThickness="10" FontWeight="Black" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-30,0,0" Opacity="0.7"/>
-                    <Grid Width="90" Height="60" Opacity="0.5" Margin="-5,10,0,0" HorizontalAlignment="Center">
-                        <Grid Margin="60,-15,0,0">
-                            <hc:OutlineText x:Name="S1" Text="x120" HorizontalAlignment="Left" TextAlignment="Left" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                            <hc:OutlineText x:Name="S2" Text="x120" HorizontalAlignment="Left" TextAlignment="Left" Fill="White" Stroke="Transparent" StrokeThickness="4" FontWeight="Black" FontSize="15"/>
-                        </Grid>
-                        <hc:UniformSpacingPanel Spacing="3" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <fa:IconBlock Icon="LayerGroup" IconFont="Solid" FontSize="40"/>
-                            <TextBlock Text="Items" FontWeight="Black" HorizontalAlignment="Center" FontSize="13" Margin="4,0,0,0"/>
-                        </hc:UniformSpacingPanel>
-                    </Grid>
-                </Grid>
-            </Border>
-        </hc:TransitioningContentControl>
-
+        </hc:TransitioningContentControl> <!-- Contenido Info -->
         <hc:TransitioningContentControl TransitionMode="Bottom2TopWithFade">
             <Grid>
                 <Image Source="{StaticResource Arrow1}" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,125,0,0" Opacity="0.5" RenderTransformOrigin="0.5,0.5">
@@ -189,18 +153,19 @@
                         </TransformGroup>
                     </Image.RenderTransform>
                 </Image>
-                <TextBlock FontWeight="ExtraBlack" Margin="140,175,0,0">
-                    <Run Text="Incompletos:" Foreground="#FF888888" FontSize="14"/>
-                    <Run x:Name="ProyectosIncompletos" Foreground="OrangeRed" Text="1" FontSize="14"/>
-                </TextBlock>
+                <Border Background="#FFFDD0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center" Margin="0,0,220,25">
+                    <Border.Effect>
+                        <DropShadowEffect Opacity="0.25"/>
+                    </Border.Effect>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontWeight="ExtraBlack" Text="Proyectos Incompletos" Foreground="#FF888888" FontSize="14" Margin="0,-5,0,0"/>
+                        <TextBlock FontWeight="ExtraBlack" HorizontalAlignment="Center" x:Name="ProyectosIncompletos" Foreground="OrangeRed" Text="1" FontSize="16" Opacity="0.75"/>
+                    </StackPanel>
+                </Border>
             </Grid>
-        </hc:TransitioningContentControl>
+        </hc:TransitioningContentControl> <!-- Proyectos Info -->
         <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
             <Grid>
-                <TextBlock FontWeight="ExtraBlack" Margin="195,85,0,0">
-                    <Run Text="Valor Total:" Foreground="#FF888888" FontSize="14"/>
-                    <Run x:Name="ValorInventario" Foreground="Green" Text="$1" FontSize="14"/>
-                </TextBlock>
                 <Image Source="{StaticResource Arrow2}" Height="15" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,80,0,0" Opacity="0.5" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
@@ -208,14 +173,42 @@
                         </TransformGroup>
                     </Image.RenderTransform>
                 </Image>
+                <Border Background="#FFFDD0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center" Margin="0,0,140,260">
+                    <Border.Effect>
+                        <DropShadowEffect Opacity="0.25"/>
+                    </Border.Effect>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontWeight="ExtraBlack" Text="Valor Total" Foreground="#FF888888" FontSize="14" Margin="0,-5,0,0"/>
+                        <TextBlock FontWeight="ExtraBlack" HorizontalAlignment="Center" x:Name="ValorInventario" Foreground="Green" Text="$1" FontSize="16" Opacity="0.75"/>
+                    </StackPanel>
+                </Border>
             </Grid>
-        </hc:TransitioningContentControl>
-
+        </hc:TransitioningContentControl> <!-- Inventario Info -->
+        <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+            <Grid>
+                <Grid Height="360" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="230,40,0,0">
+                    <Image Source="{StaticResource Papel}" Height="360" Width="220" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image.Effect>
+                            <DropShadowEffect Opacity="0.25"/>
+                        </Image.Effect>
+                    </Image>
+                    <TextBlock Text="Notas" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" FontWeight="ExtraBlack" FontFamily="Brush Script MT" FontSize="30" Opacity="0.75"/>
+                </Grid>
+                <Image Source="{StaticResource Cinta}" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="420,0,0,280">
+                    <Image.Effect>
+                        <DropShadowEffect Opacity="0.25"/>
+                    </Image.Effect>
+                </Image>
+            </Grid>
+        </hc:TransitioningContentControl> <!-- Nota -->
         <hc:TransitioningContentControl TransitionMode="Top2BottomWithFade">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,5,0,0">
+                <Grid.Effect>
+                    <DropShadowEffect BlurRadius="2"/>
+                </Grid.Effect>
                 <hc:OutlineText Text="Bienvenido!" Stroke="#262626" StrokeThickness="4" FontWeight="ExtraBlack" FontSize="30" FontFamily="Forte"/>
                 <hc:OutlineText Text="Bienvenido!" Fill="#FFFFB241" FontWeight="ExtraBlack" FontSize="30" FontFamily="Forte"/>
             </Grid>
-        </hc:TransitioningContentControl>
+        </hc:TransitioningContentControl> <!-- Titulo -->
     </Grid>
 </UserControl>
