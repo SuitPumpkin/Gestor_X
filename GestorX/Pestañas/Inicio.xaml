@@ -83,6 +83,18 @@
                     <DropShadowEffect Opacity="0.25"/>
                 </Border.Effect>
                 <Grid Width="260" Height="155" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid VerticalAlignment="Top" Margin="0,-10,0,0">
+                        <Ellipse Fill="#D84747" Width="20" Height="20">
+                            <Ellipse.Effect>
+                                <DropShadowEffect Opacity="0.25"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                        <Ellipse Fill="#FF4444" Width="15" Height="15">
+                            <Ellipse.Effect>
+                                <DropShadowEffect Opacity="0.25"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                    </Grid>
                     <hc:UniformSpacingPanel Spacing="20" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <hc:UniformSpacingPanel Spacing="40" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Grid Width="90" Height="60" Opacity="0.5" Margin="-5,10,0,0" HorizontalAlignment="Center">
