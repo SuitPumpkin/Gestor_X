@@ -27,7 +27,7 @@
             <DrawingBrush.Drawing>
                 <ImageDrawing
                 ImageSource="cloud.png"
-                Rect="0,0,70,80" />
+                Rect="0,0,90,90" />
             </DrawingBrush.Drawing>
         </DrawingBrush>
     </Window.Resources>

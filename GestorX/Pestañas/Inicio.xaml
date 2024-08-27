@@ -9,6 +9,48 @@
              xmlns:local="clr-namespace:GestorX.Pestañas"
              mc:Ignorable="d" 
              d:DesignHeight="440" d:DesignWidth="630" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <DrawingImage x:Key="Arrow1">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V89 H129 V0 H0 Z">
+                    <GeometryDrawing Geometry="F1 M129,89z M0,0z M126.778,87.1111C120.431,62.3474 100.017,30.4444 71.5557,30.4444 62.023,30.4444 51.4782,33.999 46.8335,42.9444 44.7786,46.902 44.0409,53.3626 47.6113,56.7778 53.349,62.2661 62.5143,58.7588 68.0001,55 74.6649,50.4334 78.5647,38.2145 78.8335,30.5555 79.4078,14.1867 58.9593,8.69041 45.7779,7.44441 43.168,7.1977 28.5,5.49997 19.5,10.5">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" DashCap="Flat" LineJoin="Miter" MiterLimit="1">
+                                <Pen.DashStyle>
+                                    <DashStyle Offset="0" Dashes="2 2" />
+                                </Pen.DashStyle>
+                            </Pen>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M129,89z M0,0z M17.8847,2C18.8942,2 17.0549,2.16957 16.6044,2.45455 12.7009,4.92392 9.11718,7.71362 5.35604,10.4091 2.42404,12.5103 -0.000195211,13.7637 4.44153,15.2727 10.1975,17.2283 16.1116,18.5366 22,20">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Miter" MiterLimit="1" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="Arrow2">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V27 H146 V0 H0 Z">
+                    <GeometryDrawing Geometry="F1 M146,27z M0,0z M17.8847,2C18.8942,2 17.0549,2.16957 16.6044,2.45455 12.7009,4.92392 9.11718,7.71362 5.35604,10.4091 2.42404,12.5103 -0.000195211,13.7637 4.44153,15.2727 10.1975,17.2283 16.1116,18.5366 22,20">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Miter" MiterLimit="1" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M146,27z M0,0z M144,23.1667C141.832,23.2699 130.698,24.5762 128.528,24.7222 117.63,25.4557 106.475,24.5535 95.6667,23.1667 81.5352,21.3533 67.8784,17.0651 53.9444,14.2222 42.3086,11.8483 30.8189,11.2412 19,11">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" DashCap="Flat" LineJoin="Miter" MiterLimit="1">
+                                <Pen.DashStyle>
+                                    <DashStyle Offset="0" Dashes="2 2" />
+                                </Pen.DashStyle>
+                            </Pen>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </UserControl.Resources>
     <Grid>
         <hc:TransitioningContentControl TransitionMode="Bottom2TopWithFade">
             <hc:TransitioningContentControl.TransitionStoryboard>
@@ -137,28 +179,42 @@
                 </Grid>
             </Border>
         </hc:TransitioningContentControl>
-        <WrapPanel Orientation="Horizontal"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20,0,0,155">
-            <hc:TransitioningContentControl TransitionMode="Left2RightWithFade">
-                <Border Margin="5,0,5,0" CornerRadius="4" BorderThickness="3" Background="White" BorderBrush="#FF525252" Padding="5,0,5,0">
-                    <TextBlock FontWeight="ExtraBlack" FontSize="18">
-                        <Run Text="Proyectos Incompletos:" Foreground="#FF888888"/>
-                        <Run x:Name="ProyectosIncompletos" Foreground="OrangeRed" Text="1"/>
-                    </TextBlock>
-                </Border>
-            </hc:TransitioningContentControl>
-            <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
-                <Border Margin="5,0,5,0" CornerRadius="4" BorderThickness="3" Background="White" BorderBrush="#FF525252" Padding="5,0,5,0">
-                    <TextBlock FontWeight="ExtraBlack" FontSize="18">
-                        <Run Text="Valor del Inventario:" Foreground="#FF888888"/>
-                        <Run x:Name="ValorInventario" Foreground="Green" Text="1"/>
-                    </TextBlock>
-                </Border>
-            </hc:TransitioningContentControl>
-        </WrapPanel>
+
+        <hc:TransitioningContentControl TransitionMode="Bottom2TopWithFade">
+            <Grid>
+                <Image Source="{StaticResource Arrow1}" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,125,0,0" Opacity="0.5" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <TextBlock FontWeight="ExtraBlack" Margin="140,175,0,0">
+                    <Run Text="Incompletos:" Foreground="#FF888888" FontSize="14"/>
+                    <Run x:Name="ProyectosIncompletos" Foreground="OrangeRed" Text="1" FontSize="14"/>
+                </TextBlock>
+            </Grid>
+        </hc:TransitioningContentControl>
+        <hc:TransitioningContentControl TransitionMode="Right2LeftWithFade">
+            <Grid>
+                <TextBlock FontWeight="ExtraBlack" Margin="195,85,0,0">
+                    <Run Text="Valor Total:" Foreground="#FF888888" FontSize="14"/>
+                    <Run x:Name="ValorInventario" Foreground="Green" Text="$1" FontSize="14"/>
+                </TextBlock>
+                <Image Source="{StaticResource Arrow2}" Height="15" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="110,80,0,0" Opacity="0.5" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Grid>
+        </hc:TransitioningContentControl>
+
         <hc:TransitioningContentControl TransitionMode="Top2BottomWithFade">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,5,0,0">
-                <hc:OutlineText Text="Bienvenido!" Stroke="#262626" StrokeThickness="7" FontWeight="ExtraBlack" FontSize="25"/>
-                <hc:OutlineText Text="Bienvenido!" Fill="#FFFFB241" FontWeight="ExtraBlack" FontSize="25"/>
+                <hc:OutlineText Text="Bienvenido!" Stroke="#262626" StrokeThickness="4" FontWeight="ExtraBlack" FontSize="30" FontFamily="Forte"/>
+                <hc:OutlineText Text="Bienvenido!" Fill="#FFFFB241" FontWeight="ExtraBlack" FontSize="30" FontFamily="Forte"/>
             </Grid>
         </hc:TransitioningContentControl>
     </Grid>
