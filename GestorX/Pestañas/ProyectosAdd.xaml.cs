@@ -71,14 +71,7 @@ namespace GestorX.Pestañas
                 IconoPrevio.Visibility = Visibility.Collapsed;
                 try
                 {
-                    string ImagenCargada = System.IO.Path.Combine(Ubicaciones.Imagenes, $"P-{Editado.ID}.jpg");
-                    //usa la imagen en la carpeta temp
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad; // Cargar la imagen completamente antes de cerrar el archivo
-                    bitmap.UriSource = new Uri(ImagenCargada);
-                    bitmap.EndInit();
-                    Preview.Source = bitmap;
+                    Preview.Source = Editado.ImagenReal;
                 }
                 catch
                 {
@@ -132,7 +125,7 @@ namespace GestorX.Pestañas
             if (ImagenSeleccionada)
             {
                 GC.Collect(); //fuerza a que los recursos no utilizados se borren para que al cargar denuevo se vuelvan a pedir
-                imagenuwu = Preview.Source.ToString().Remove(0, 8);
+                imagenuwu = Preview.Source.ToString().Remove(0, 5).Replace("/","\\");
             }
             if (Total.Text != "" && Descripción.Text != "" && Nombre.Text != "")
             {
@@ -320,6 +313,7 @@ namespace GestorX.Pestañas
                 {
                     Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg|Todos los archivos|*.*"
                 };
+                if (Editado.CarpetaResultados != null) { openFileDialog.InitialDirectory = $"{Editado.CarpetaResultados}"; }
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string filePath = openFileDialog.FileName;

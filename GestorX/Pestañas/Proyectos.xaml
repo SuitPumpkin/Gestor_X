@@ -172,9 +172,9 @@
                                     </Grid>
                                 </Border>
                                 <Border Grid.Column="0" Background="White" BorderThickness="1" BorderBrush="#262626" Height="50" Width="50" HorizontalAlignment="Left" Margin="0,0,0,5">
-                                    <Image Source="{Binding Imagen}" Stretch="UniformToFill" Width="50" Height="50">
+                                    <Image Source="{Binding ImagenReal}" Stretch="UniformToFill" Width="50" Height="50">
                                         <Image.ToolTip>
-                                            <Image Source="{Binding Imagen}" Width="100" Stretch="UniformToFill"/>
+                                            <Image Source="{Binding ImagenReal}" Width="100" Stretch="UniformToFill"/>
                                         </Image.ToolTip>
                                     </Image>
                                 </Border>

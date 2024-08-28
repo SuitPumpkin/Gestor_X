@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GestorX.Pestañas
 {
@@ -23,6 +24,7 @@ namespace GestorX.Pestañas
         {
             public string ID { get; set; } = string.Empty;
             public string Imagen { get; set; } = string.Empty;
+            public ImageSource ImagenReal { get; set; }
             public string Descripción { get; set; } = string.Empty;
             public string Nombre { get; set; } = string.Empty;
             public static string[] ImagenesEnDesUso()
@@ -103,6 +105,19 @@ namespace GestorX.Pestañas
             public static ItemAgenda Read(string IDBuscado, ObservableCollection<ItemAgenda> Items)
             {
                 ItemAgenda retornado = Items.FirstOrDefault(I => I.ID == IDBuscado);
+                BitmapImage bitmap = new BitmapImage();
+                using (FileStream stream = new FileStream(retornado.Imagen, FileMode.Open, FileAccess.Read))
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.EndInit();
+                }
+                bitmap.Freeze(); // Hace que el bitmap sea accesible desde cualquier hilo
+                retornado.ImagenReal = bitmap;
                 return retornado;
             }
 
@@ -211,6 +226,19 @@ namespace GestorX.Pestañas
             public static ItemInventario Read(string IDBuscado, ObservableCollection<ItemInventario> Items)
             {
                 ItemInventario retornado = Items.FirstOrDefault(I => I.ID == IDBuscado);
+                BitmapImage bitmap = new BitmapImage();
+                using (FileStream stream = new FileStream(retornado.Imagen, FileMode.Open, FileAccess.Read))
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.EndInit();
+                }
+                bitmap.Freeze(); // Hace que el bitmap sea accesible desde cualquier hilo
+                retornado.ImagenReal = bitmap;
                 return retornado;
             }
 
@@ -344,6 +372,19 @@ namespace GestorX.Pestañas
             public static ItemProyecto Read(string IDBuscado, ObservableCollection<ItemProyecto> Items)
             {
                 ItemProyecto retornado = Items.FirstOrDefault(I => I.ID == IDBuscado);
+                BitmapImage bitmap = new BitmapImage();
+                using (FileStream stream = new FileStream(retornado.Imagen, FileMode.Open, FileAccess.Read))
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.EndInit();
+                }
+                bitmap.Freeze(); // Hace que el bitmap sea accesible desde cualquier hilo
+                retornado.ImagenReal = bitmap;
                 return retornado;
             }
 

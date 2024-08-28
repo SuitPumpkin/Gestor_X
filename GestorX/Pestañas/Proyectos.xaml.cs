@@ -116,6 +116,7 @@ namespace GestorX.Pestañas
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            GC.Collect();
             CargarItems();
         }
     }
