@@ -56,7 +56,7 @@
                                 <EventTrigger RoutedEvent="MouseEnter">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <ColorAnimation  Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF0078D7" Duration="0:0:0.2" />
+                                            <ColorAnimation  Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FFFFB241" Duration="0:0:0.2" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
@@ -139,7 +139,7 @@
                                 <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="true">
-                                <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter Property="Background" Value="#FFFFB241"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>

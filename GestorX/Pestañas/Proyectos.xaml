@@ -20,7 +20,7 @@
                         <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}"/>
                         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+                        <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="BorderBrush" Value="Transparent"/>
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Margin" Value="0,0,0,2" />
@@ -38,7 +38,7 @@
                                 <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="true">
-                                <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter Property="Background" Value="#FFFFB241"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
