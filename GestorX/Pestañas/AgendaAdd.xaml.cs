@@ -87,7 +87,9 @@ namespace GestorX.Pestañas
             if (ImagenSeleccionada)
             {
                 GC.Collect(); //fuerza a que los recursos no utilizados se borren para que al cargar denuevo se vuelvan a pedir
-                imagenuwu = Preview.Source.ToString().Remove(0,8);
+                Console.WriteLine($"Antes: {Preview.Source.ToString()}");
+                imagenuwu = Preview.Source.ToString().Replace("file:","").Replace("///C:","C:").Replace("///D:", "D:").Replace("///E:", "E:");
+                Console.WriteLine($"Antes: {imagenuwu}");
             }
             if (Telefono.Text != "" && Correo.Text != "" && PaginaWeb.Text != "" && Nombre.Text != "")
             {
@@ -207,7 +209,6 @@ namespace GestorX.Pestañas
         }
         private void Preview_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ImagenSeleccionada = true;
             try
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
@@ -225,6 +226,7 @@ namespace GestorX.Pestañas
                     bitmap.EndInit();
 
                     Preview.Source = bitmap;
+                    ImagenSeleccionada = true;
                 }
             }
             catch (Exception ex)

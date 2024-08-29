@@ -125,7 +125,7 @@ namespace GestorX.Pestañas
             if (ImagenSeleccionada)
             {
                 GC.Collect(); //fuerza a que los recursos no utilizados se borren para que al cargar denuevo se vuelvan a pedir
-                imagenuwu = Preview.Source.ToString().Remove(0, 5).Replace("/","\\");
+                imagenuwu = Preview.Source.ToString().Replace("file:", "").Replace("///C:", "C:").Replace("///D:", "D:").Replace("///E:", "E:");
             }
             if (Total.Text != "" && Descripción.Text != "" && Nombre.Text != "")
             {
@@ -306,14 +306,13 @@ namespace GestorX.Pestañas
         }
         private void Preview_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ImagenSeleccionada = true;
             try
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
                     Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg|Todos los archivos|*.*"
                 };
-                if (Editado.CarpetaResultados != null) { openFileDialog.InitialDirectory = $"{Editado.CarpetaResultados}"; }
+                if (Editado.CarpetaResultados != null) { openFileDialog.InitialDirectory = Editado.CarpetaResultados.Replace("/", "\\"); }
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string filePath = openFileDialog.FileName;
@@ -325,6 +324,7 @@ namespace GestorX.Pestañas
                     bitmap.EndInit();
 
                     Preview.Source = bitmap;
+                    ImagenSeleccionada = true;
                 }
             }
             catch (Exception ex)
