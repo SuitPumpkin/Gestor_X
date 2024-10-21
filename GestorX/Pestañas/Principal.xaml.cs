@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -61,45 +62,7 @@ namespace GestorX.Pestañas
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Regex Agenda_ = new Regex(@"A-([^\\]+)\.jpg");
-            Regex Inventario_ = new Regex(@"I-([^\\]+)\.jpg");
-            Regex Proyectos_ = new Regex(@"P-([^\\]+)\.jpg");
-            foreach (string imagen in ItemBase.ImagenesEnDesUso())
-            {
-                Match matcha = Agenda_.Match(imagen);
-                Match matchi = Inventario_.Match(imagen);
-                Match matchp = Proyectos_.Match(imagen);
-                if (matcha.Success)
-                {
-                    var id = matcha.Groups[1].Value;
-                    ItemAgenda p = ItemAgenda.Read(id, Agenda);
-                    if (p == null)
-                    {
-                        File.Delete(imagen);
-                        Console.WriteLine($"Id agenda: {id}");
-                    }
-                }
-                if (matchi.Success)
-                {
-                    var id = matchi.Groups[1].Value;
-                    ItemInventario p = ItemInventario.Read(id, Inventario);
-                    if (p == null)
-                    {
-                        File.Delete(imagen);
-                        Console.WriteLine($"Id inventario: {id}");
-                    }
-                }
-                if (matchp.Success)
-                {
-                    var id = matchp.Groups[1].Value;
-                    ItemProyecto p = ItemProyecto.Read(id, Proyectos);
-                    if (p == null)
-                    {
-                        File.Delete(imagen);
-                        Console.WriteLine($"Id proyectos: {id}");
-                    }
-                }
-            }
+
         }
     }
 }
