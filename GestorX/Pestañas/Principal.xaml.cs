@@ -25,10 +25,12 @@ namespace GestorX.Pestañas
         public ObservableCollection<ItemAgenda> Agenda { get; } = ItemAgenda.Archivo.Leer();
         public ObservableCollection<ItemInventario> Inventario { get; } = ItemInventario.Archivo.Leer();
         public ObservableCollection<ItemProyecto> Proyectos { get; } = ItemProyecto.Archivo.Leer();
-
         public ItemInventario ItemDelInventario { get; set; } = new ItemInventario();
         public ItemAgenda ItemDeLaAgenda { get; set; } = new ItemAgenda();
         public ItemProyecto ItemDeProyectos { get; set; } = new ItemProyecto();
+
+
+
         public Principal()
         {
             InitializeComponent();

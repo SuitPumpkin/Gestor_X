@@ -14,6 +14,7 @@ namespace GestorX.Pestañas
     {
         public class Ubicaciones
         {
+            public static string Pendientes { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\pendientes.todo";
             public static string Inventario { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\inventario.csv";
             public static string Agenda { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\agenda.csv";
             public static string Proyectos { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\proyectos.csv";
@@ -88,7 +89,9 @@ namespace GestorX.Pestañas
                 }
             }
 
-            //Añade un nuevo Item a la agenda
+            /// <summary>
+            ///Añade un nuevo Item a la agenda
+            /// </summary>
             public static void Create(ItemAgenda ItemAGuardar, ObservableCollection<ItemAgenda> Items)
             {
                 //Le asigna un GUID con el formato: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
@@ -100,8 +103,10 @@ namespace GestorX.Pestañas
                 //Escribe el archivo con la modificación
                 Archivo.Escribir(Items);
             }
-
-            //Busca un Item por ID y retorna el encontrado
+            /// <summary>
+            ///Busca un Item por ID y retorna el encontrado
+            /// </summary>
+            /// <summary>
             public static ItemAgenda Read(string IDBuscado, ObservableCollection<ItemAgenda> Items)
             {
                 ItemAgenda retornado = Items.FirstOrDefault(I => I.ID == IDBuscado);
@@ -120,8 +125,9 @@ namespace GestorX.Pestañas
                 retornado.ImagenReal = bitmap;
                 return retornado;
             }
-
-            //Actualiza la información de un Item
+            /// <summary>
+            /// Actualiza la información de un Item
+            /// </summary>
             public static void Update(ItemAgenda Editado, ObservableCollection<ItemAgenda> Items)
             {
                 ItemAgenda encontrado = Items.FirstOrDefault(I => I.ID == Editado.ID);
@@ -140,8 +146,9 @@ namespace GestorX.Pestañas
                 //Escribe el archivo con la modificación
                 Archivo.Escribir(Items);
             }
-
-            //Borra un Item de la agenda
+            /// <summary>
+            /// Borra un Item de la agenda
+            /// </summary>
             public static void Delete(ItemAgenda Eliminado, ObservableCollection<ItemAgenda> Items)
             {
                 Items.Remove(Eliminado);

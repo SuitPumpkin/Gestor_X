@@ -75,6 +75,52 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
+
+        <Style x:Key="NoteButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.3"/>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3"/>
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3"/>
+                                            <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.3"/>
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" To="Black" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <hc:TransitioningContentControl TransitionMode="Left2RightWithFade">
@@ -205,6 +251,19 @@
                         </Image.Effect>
                     </Image>
                     <TextBlock Text="Notas" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" FontWeight="ExtraBlack" FontFamily="Brush Script MT" FontSize="30" Opacity="0.75"/>
+                    <Grid Margin="10,50,10,10">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                                <hc:UniformSpacingPanel x:Name="NotesPanel" VerticalAlignment="Top" Orientation="Vertical">
+                                    <!-- Aquí se generarán dinámicamente las notas -->
+                                </hc:UniformSpacingPanel>
+                                <!-- Botón para Agregar Nueva Nota -->
+                                <Button Width="35" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderBrush="Black" BorderThickness="1" Click="AñadirNota">
+                                    <fa:IconBlock Icon="Add" IconFont="Solid" FontSize="18"/>
+                                </Button>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
                 <Image Source="{StaticResource Cinta}" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="420,0,0,280">
                     <Image.Effect>
@@ -212,7 +271,7 @@
                     </Image.Effect>
                 </Image>
             </Grid>
-        </hc:TransitioningContentControl> <!-- Nota -->
+        </hc:TransitioningContentControl> <!-- Notas -->
         <hc:TransitioningContentControl TransitionMode="Top2BottomWithFade">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,5,0,0">
                 <Grid.Effect>
