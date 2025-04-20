@@ -38,7 +38,7 @@
             </Border.Effect>
             <Grid>
                 <!-- Foto-->
-                <Border BorderBrush="#ddd" Background="White" BorderThickness="1" CornerRadius="4,4,0,0" Height="160" Width="216" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Padding="5,5,5,0"  MouseLeftButtonDown="Preview_MouseLeftButtonDown" Cursor="Hand">
+                <Border BorderBrush="#ddd" Background="White" BorderThickness="1" CornerRadius="4,4,0,0" Height="160" Width="216" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Padding="5,5,5,0"  MouseLeftButtonDown="SeleccionandoImagen" Cursor="Hand">
                     <Grid>
                         <fa:IconBlock x:Name="IconoPrevio" Icon="Suitcase" IconFont="Solid" FontSize="140" Opacity="0.7"/>
                         <Image x:Name="Preview" Width="206" Height="155" Stretch="Uniform"/>

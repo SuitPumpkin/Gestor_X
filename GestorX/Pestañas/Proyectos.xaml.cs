@@ -23,24 +23,57 @@ namespace GestorX.Pestañas
 {
     public partial class Proyectos : UserControl
     {
+        /// <summary>
+        /// Referencia a la ventana principal
+        /// </summary>
+        private Principal _principal;
+        /// <summary>
+        /// Colección de items de proyecto
+        /// </summary>
         public ObservableCollection<ItemProyecto> Items { get; set; }
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
         public Proyectos()
         {
+            BaseDeDatos.BaseDeDatosActualizada += ActualizarItems;
             InitializeComponent();
+        }
+        private void ActualizarItems()
+        {
+            try
+            {
+                Items = ItemProyecto.Read();
+            }
+            catch
+            {
+                Debug.WriteLine("Error al leer la base de datos");
+            }
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Lista.Items.Refresh();
+            });
         }
         private void CargarItems()
         {
             MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            Items = pri.Proyectos;
+            _principal = ventana.Contenido.Content as Principal;
+            Items = _principal.Proyectos;
             Lista.ItemsSource = Items.OrderBy(x => x.Nombre);
         }
         private void Agregar(object sender, MouseButtonEventArgs e)
         {
-            MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            pri.ItemDeProyectos = new ItemProyecto();
-            pri.Subpestaña.Content = new ProyectosAdd();
+            _principal.ItemDeProyectos = new ItemProyecto();
+            _principal.Subpestaña.Content = new ProyectosAdd();
+        }
+        private void Editar(object sender, MouseButtonEventArgs e)
+        {
+            var seleccionado = Lista.SelectedItem;
+            if (seleccionado != null)
+            {
+                _principal.ItemDeProyectos = ((ItemProyecto)seleccionado);
+                _principal.Subpestaña.Content = new ProyectosAdd();
+            }
         }
         private void Ordenar(object sender, MouseButtonEventArgs e)
         {
@@ -83,17 +116,6 @@ namespace GestorX.Pestañas
             var items = new ObservableCollection<ItemProyecto>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())));
             Lista.ItemsSource = items;
         }
-        private void ItemDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var seleccionado = Lista.SelectedItem;
-            if (seleccionado != null)
-            {
-                MainWindow ventana = Window.GetWindow(this) as MainWindow;
-                Principal pri = ventana.Contenido.Content as Principal;
-                pri.ItemDeProyectos = ((ItemProyecto)seleccionado);
-                pri.Subpestaña.Content = new ProyectosAdd();
-            }
-        }
         private void AbrirCarpeta(object sender, MouseButtonEventArgs e)
         {
             Border enviado = sender as Border;
@@ -116,7 +138,6 @@ namespace GestorX.Pestañas
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            GC.Collect();
             CargarItems();
         }
     }

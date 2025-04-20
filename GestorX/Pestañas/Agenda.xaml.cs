@@ -23,34 +23,56 @@ namespace GestorX.Pestañas
 {
     public partial class Agenda : UserControl
     {
+        /// <summary>
+        /// Referencia a la ventana principal
+        /// </summary>
+        private Principal _principal;
+        /// <summary>
+        /// Almacenta la información de los items actuales de la agenda
+        /// </summary>
         public ObservableCollection<ItemAgenda> Items { get; set; }
+        /// <summary>
+        /// Constructor del componente
+        /// </summary>
         public Agenda()
         {
+            BaseDeDatos.BaseDeDatosActualizada += ActualizarItems;
             InitializeComponent();
+        }
+        private void ActualizarItems()
+        {
+            try
+            {
+                Items = ItemAgenda.Read();
+            }
+            catch
+            {
+                Debug.WriteLine("Error al leer la base de datos");
+            }
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                AgendaList.Items.Refresh();
+            });
         }
         private void CargarItems()
         {
             MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            Items = pri.Agenda;
+            _principal = ventana.Contenido.Content as Principal;
+            Items = _principal.Agenda;
             AgendaList.ItemsSource = Items.OrderBy(x => x.Nombre);
         }
         private void Agregar(object sender, MouseButtonEventArgs e)
         {
-            MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            pri.ItemDeLaAgenda = new ItemAgenda();
-            pri.Subpestaña.Content = new AgendaAdd();
+            _principal.ItemDeLaAgenda = new ItemAgenda();
+            _principal.Subpestaña.Content = new AgendaAdd();
         }
         private void Editar(object sender, MouseButtonEventArgs e)
         {
             var seleccionado = AgendaList.SelectedItem;
             if (seleccionado != null)
             {
-                MainWindow ventana = Window.GetWindow(this) as MainWindow;
-                Principal pri = ventana.Contenido.Content as Principal;
-                pri.ItemDeLaAgenda = ((ItemAgenda)seleccionado);
-                pri.Subpestaña.Content = new AgendaAdd();
+                _principal.ItemDeLaAgenda = ((ItemAgenda)seleccionado);
+                _principal.Subpestaña.Content = new AgendaAdd();
             }
             else
             {
@@ -103,10 +125,8 @@ namespace GestorX.Pestañas
             var seleccionado = AgendaList.SelectedItem;
             if (seleccionado != null)
             {
-                MainWindow ventana = Window.GetWindow(this) as MainWindow;
-                Principal pri = ventana.Contenido.Content as Principal;
-                pri.ItemDeLaAgenda = ((ItemAgenda)seleccionado);
-                pri.Subpestaña.Content = new AgendaAdd();
+                _principal.ItemDeLaAgenda = ((ItemAgenda)seleccionado);
+                _principal.Subpestaña.Content = new AgendaAdd();
             }
         }
         private void EnviarCorreo(object sender, MouseButtonEventArgs e)

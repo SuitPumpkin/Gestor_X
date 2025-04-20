@@ -70,7 +70,7 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <hc:TransitioningContentControl TransitionMode="Top2BottomWithFade" MouseDoubleClick="ItemDoubleClick">
+                        <hc:TransitioningContentControl TransitionMode="Top2BottomWithFade" MouseDoubleClick="Editar">
                             <Grid Cursor="Hand" Width="360" Height="55" Margin="0,5,0,10">
                                 <Border Background="White" BorderThickness="1" BorderBrush="#262626" Height="40" Width="312" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,5">
                                     <Border.Effect>

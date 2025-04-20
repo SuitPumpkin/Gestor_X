@@ -70,7 +70,7 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Resources>
-                    <Border Style="{StaticResource Botón}" MouseLeftButtonDown="AgregarAInventario">
+                    <Border Style="{StaticResource Botón}" MouseLeftButtonDown="Agregar">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <fa:IconBlock Icon="PlusCircle" Foreground="#262626" FontSize="16" VerticalAlignment="Center" IconFont="Solid" Margin="5,0,5,0"/>
                             <TextBlock FontSize="12" Foreground="#262626" Text="Agregar" VerticalAlignment="Center" FontWeight="Black" Margin="0,0,5,0"/>
@@ -95,7 +95,7 @@
                     <hc:OutlineText Text="Valor Total" FontWeight="Black" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Black" FontSize="14" Foreground="Green" Margin="0,25,0,10">
                         <Run Text="$"/>
-                        <Run x:Name="valor" Text="{Binding ValorInventario}"/>
+                        <Run x:Name="ValorInventario"/>
                     </TextBlock>
                 </Grid>
             </Border>
@@ -195,7 +195,7 @@
                                                     <TextBlock>
                 <Run Text="Costo:"/>
                 <Run Text="$" FontWeight="Black"/>
-                <Run Text="{Binding PrecioCompra}" FontWeight="Black"/>
+                <Run Text="{Binding Precio}" FontWeight="Black"/>
                                                     </TextBlock>
                                                 </StackPanel>
                                             </Grid.ToolTip>
@@ -205,8 +205,8 @@
                                                     <hc:OutlineText Fill="White" Text="$" FontWeight="Black" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                                 </Grid>
                                                 <Grid>
-                                                    <hc:OutlineText Stroke="Green" StrokeThickness="4" Text="{Binding PrecioCompra}" FontWeight="Black" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                                    <hc:OutlineText Fill="White" Text="{Binding PrecioCompra}" FontWeight="Black" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <hc:OutlineText Stroke="Green" StrokeThickness="4" Text="{Binding Precio}" FontWeight="Black" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <hc:OutlineText Fill="White" Text="{Binding Precio}" FontWeight="Black" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>

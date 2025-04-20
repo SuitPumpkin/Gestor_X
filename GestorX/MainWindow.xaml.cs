@@ -3,6 +3,8 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace GestorX
 {
     public partial class MainWindow : System.Windows.Window
     {
+        private bool _CambiandoTamaño = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -59,6 +62,25 @@ namespace GestorX
         private void CloseButton_Click(object sender, MouseButtonEventArgs e)
         {
             this.Close();
+        }
+        private void CambioDeTamaño(object sender, SizeChangedEventArgs e)
+        {
+            if (_CambiandoTamaño)
+            {
+                return;
+            }
+            if (e.WidthChanged)
+            {
+                _CambiandoTamaño = true;
+                this.Height = this.ActualWidth / 1.36;
+                _CambiandoTamaño = false;
+            }
+            else if (e.HeightChanged)
+            {
+                _CambiandoTamaño = true;
+                this.Width = this.ActualHeight * 1.36;
+                _CambiandoTamaño = false;
+            }
         }
     }
 }

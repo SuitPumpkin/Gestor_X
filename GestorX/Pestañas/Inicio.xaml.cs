@@ -26,12 +26,15 @@ namespace GestorX.Pestañas
 {
     public partial class Inicio : UserControl
     {
+        /// <summary>
+        /// Referencia a la ventana principal
+        /// </summary>
+        private Principal _principal;
         public Inicio()
         {
             InitializeComponent();
             Cargarpendientes();
         }
-
         private void Cargarpendientes()
         {
             try
@@ -171,7 +174,6 @@ namespace GestorX.Pestañas
                 Background = System.Windows.Media.Brushes.White,
                 BorderBrush = System.Windows.Media.Brushes.Black,
                 BorderThickness = new Thickness(0,1,0,1),
-                CornerRadius = new CornerRadius(5),
                 Margin = new Thickness(2),
                 Padding = new Thickness(5),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -233,19 +235,19 @@ namespace GestorX.Pestañas
         public void CargarInfo()
         {
             MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
+            _principal = ventana.Contenido.Content as Principal;
             int p = 0, c = 0, t = 0;
-            foreach (ItemAgenda item in pri.Agenda)
+            foreach (ItemAgenda item in _principal.Agenda)
             {
-                if (item.TipoContacto == "Proveedor")
+                if (item.TipoDeContacto == "Proveedor")
                 {
                     p++;
                 }
-                if (item.TipoContacto == "Trabajador")
+                if (item.TipoDeContacto == "Trabajador")
                 {
                     t++;
                 }
-                if (item.TipoContacto == "Cliente")
+                if (item.TipoDeContacto == "Cliente")
                 {
                     c++;
                 }
@@ -256,12 +258,12 @@ namespace GestorX.Pestañas
             C2.Text = $"x{c}";
             T1.Text = $"x{t}";
             T2.Text = $"x{t}";
-            I1.Text = $"x{pri.Inventario.Count}";
-            I2.Text = $"x{pri.Inventario.Count}";
-            S1.Text = $"x{pri.Proyectos.Count}";
-            S2.Text = $"x{pri.Proyectos.Count}";
+            I1.Text = $"x{_principal.Inventario.Count}";
+            I2.Text = $"x{_principal.Inventario.Count}";
+            S1.Text = $"x{_principal.Proyectos.Count}";
+            S2.Text = $"x{_principal.Proyectos.Count}";
             var proyectos = 0;
-            foreach (ItemProyecto item in pri.Proyectos)
+            foreach (ItemProyecto item in _principal.Proyectos)
             {
                 if (item.Progreso < 100)
                 {
@@ -270,9 +272,9 @@ namespace GestorX.Pestañas
             }
             ProyectosIncompletos.Text = $"{proyectos}";
             var vi = 0.0;
-            foreach (ItemInventario item in pri.Inventario)
+            foreach (ItemInventario item in _principal.Inventario)
             {
-                var valor = item.PrecioCompra * item.Cantidad;
+                var valor = item.Precio * item.Cantidad;
                 vi += valor;
             }
             ValorInventario.Text = $"${vi}";

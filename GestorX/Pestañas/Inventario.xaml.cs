@@ -5,6 +5,7 @@ using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -27,42 +28,72 @@ namespace GestorX.Pestañas
 {
     public partial class Inventario : UserControl
     {
+        /// <summary>
+        /// Referencia a la ventana principal
+        /// </summary>
+        private Principal _principal;
+        /// <summary>
+        /// Almacenta la información de los items actuales del inventario
+        /// </summary>
         public ObservableCollection<ItemInventario> Items { get; set; }
-        public float ValorInventario { get; set; }
+        /// <summary>
+        /// Constructor del componente
+        /// </summary>
         public Inventario()
         {
+            BaseDeDatos.BaseDeDatosActualizada += ActualizarItems;
             InitializeComponent();
-            DataContext = this;
+        }
+        private void ActualizarItems()
+        {
+            try
+            {
+                Items = ItemInventario.Read();
+            }
+            catch
+            {
+                Debug.WriteLine("Error al leer la base de datos");
+            }
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                InventarioList.Items.Refresh();
+            });
         }
         private void CargarItems()
         {
             MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            Items = pri.Inventario;
-            foreach (ItemInventario item in Items)
-            {
-                var valor = item.PrecioCompra * item.Cantidad;
-                ValorInventario += valor;
-            }
-            valor.Text = ValorInventario.ToString();
+            _principal = ventana.Contenido.Content as Principal;
+            Items = _principal.Inventario;
             InventarioList.ItemsSource = Items.OrderBy(x => x.Nombre);
+            
+            float totalValor = 0;
+            try
+            {
+                BaseDeDatos.ComandoDeLectura("SELECT COALESCE(SUM(Precio * Cantidad), 0) AS Total FROM Inventario", reader => {
+                    if (!reader.IsDBNull(reader.GetOrdinal("Total")))
+                    {
+                        totalValor = float.Parse($"{reader["Total"]}");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al calcular el valor total: {ex.Message}");
+            }
+            ValorInventario.Text = totalValor.ToString();
         }
-        private void AgregarAInventario(object sender, MouseButtonEventArgs e)
+        private void Agregar(object sender, MouseButtonEventArgs e)
         {
-            MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            pri.ItemDelInventario = new ItemInventario();
-            pri.Subpestaña.Content = new InventarioAdd();
+            _principal.ItemDelInventario = new ItemInventario();
+            _principal.Subpestaña.Content = new InventarioAdd();
         }
-        private void EditarDeInventario(object sender, MouseButtonEventArgs e)
+        private void Editar(object sender, MouseButtonEventArgs e)
         {
             var seleccionado = InventarioList.SelectedItem;
             if (seleccionado != null)
             {
-                MainWindow ventana = Window.GetWindow(this) as MainWindow;
-                Principal pri = ventana.Contenido.Content as Principal;
-                pri.ItemDelInventario = ((ItemInventario)seleccionado);
-                pri.Subpestaña.Content = new InventarioAdd();
+                _principal.ItemDelInventario = ((ItemInventario)seleccionado);
+                _principal.Subpestaña.Content = new InventarioAdd();
             }
             else
             {

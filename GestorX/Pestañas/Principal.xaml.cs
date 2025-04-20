@@ -22,19 +22,36 @@ namespace GestorX.Pestañas
 {
     public partial class Principal : UserControl
     {
-        public ObservableCollection<ItemAgenda> Agenda { get; } = ItemAgenda.Archivo.Leer();
-        public ObservableCollection<ItemInventario> Inventario { get; } = ItemInventario.Archivo.Leer();
-        public ObservableCollection<ItemProyecto> Proyectos { get; } = ItemProyecto.Archivo.Leer();
+        public ObservableCollection<ItemAgenda> Agenda { get; private set; }
+        public ObservableCollection<ItemInventario> Inventario { get; private set; }
+        public ObservableCollection<ItemProyecto> Proyectos { get; private set; }
+
         public ItemInventario ItemDelInventario { get; set; } = new ItemInventario();
         public ItemAgenda ItemDeLaAgenda { get; set; } = new ItemAgenda();
         public ItemProyecto ItemDeProyectos { get; set; } = new ItemProyecto();
-
-
-
         public Principal()
         {
+            VigilarCambios();
+            ActualizarDatos();
             InitializeComponent();
             Subpestaña.Content = new Inicio();
+        }
+        private void VigilarCambios()
+        {
+            FileSystemWatcher watcher = new FileSystemWatcher
+            {
+                Path = System.IO.Path.GetDirectoryName(BaseDeDatos.UbicaciónDB),
+                Filter = System.IO.Path.GetFileName(BaseDeDatos.UbicaciónDB),
+                NotifyFilter = NotifyFilters.LastWrite
+            };
+            watcher.Changed += (sender, e) => {ActualizarDatos(); BaseDeDatos.NotificarActualizacion(); Debug.WriteLine("La base de datos ha sido actualizada jeje"); };
+            watcher.EnableRaisingEvents = true;
+        }
+        public void ActualizarDatos()
+        {
+            Agenda = ItemAgenda.Read();
+            Inventario = ItemInventario.Read();
+            Proyectos = ItemProyecto.Read();
         }
         private void CambioPestaña(object sender, MouseButtonEventArgs e)
         {
@@ -61,10 +78,6 @@ namespace GestorX.Pestañas
                     Subpestaña.Content = null; //error
                     break;
             }
-        }
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

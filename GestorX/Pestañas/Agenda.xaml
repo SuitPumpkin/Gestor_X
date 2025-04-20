@@ -87,7 +87,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Border Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="#262626" >
                                             <Grid VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding TipoContacto}" FontSize="10" Opacity="0.6" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,25,5,0"/>
+                                                <TextBlock Text="{Binding TipoDeContacto}" FontSize="10" Opacity="0.6" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,25,5,0"/>
                                                 <TextBlock Text="{Binding Nombre}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                             </Grid>
                                         </Border>
@@ -148,7 +148,7 @@
                                             </Border.Triggers>
                                             <fa:IconBlock x:Name="IconBlock3" Icon="Globe" FontSize="16"/>
                                         </Border>
-                                        <Border Grid.Column="5" ToolTip="Abrir en mapa" Background="White" Tag="{Binding Ubicación}" MouseLeftButtonDown="AbrirMapa">
+                                        <Border Grid.Column="5" ToolTip="Abrir en mapa" Background="White" Tag="{Binding UbicaciónMaps}" MouseLeftButtonDown="AbrirMapa">
                                             <Border.Triggers>
                                                 <EventTrigger RoutedEvent="MouseEnter">
                                                     <BeginStoryboard>

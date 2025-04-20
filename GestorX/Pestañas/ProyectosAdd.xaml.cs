@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,120 +25,150 @@ using Window = System.Windows.Window;
 
 namespace GestorX.Pestañas
 {
+    /// <summary>
+    /// Componente para la edición o adición de items de proyectos
+    /// </summary>
     public partial class ProyectosAdd : UserControl
     {
-        private bool ImagenSeleccionada = false;
-        public ItemProyecto Editado { get; set; } = new ItemProyecto();
-        private class ItemDeproyecto
+        /// <summary>
+        /// Referencia a la ventana principal
+        /// </summary>
+        private Principal _principal;
+        /// <summary>
+        /// Almacena la información actual del item en caso de ser una edición y no una creación
+        /// </summary>
+        public ItemProyecto ItemActual { get; set; } = new ItemProyecto();
+        /// <summary>
+        /// Clase que representa un cliente en el sistema
+        /// </summary>
+        public class ItemDecliente
         {
+            /// <summary>
+            /// Nombre del cliente
+            /// </summary>
             public string Nombre { get; set; }
+            /// <summary>
+            /// ID del cliente
+            /// </summary>
+            public string ID { get; set; }
+            /// <summary>
+            /// Descripción del cliente
+            /// </summary>
             public string Descripción { get; set; }
         }
-        private ObservableCollection<ItemDeproyecto> Itemsproyectos { get; set; }
+        /// <summary>
+        /// Colección de clientes disponibles
+        /// </summary>
+        public ObservableCollection<ItemDecliente> ItemsDecliente { get; set; }
+        /// <summary>
+        /// Constructor del componente
+        /// </summary>
         public ProyectosAdd()
         {
             InitializeComponent();
             CargarInfo();
         }
+        /// <summary>
+        /// Función para ejecutar las animaciones iniciales y la información necesaria
+        /// </summary>
         private async void CargarInfo()
         {
             Tarjeta.RenderTransform = new ScaleTransform(0.1, 0.1);
+            
             await Task.Delay(500);
-            CargarDropDown();
             MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
+            _principal = ventana.Contenido.Content as Principal;
+            CargarDropDown();
 
-            Editado = pri.ItemDeProyectos;
-            Pagado.Text = Editado.Pagado.ToString();
-            Total.Text = Editado.Precio.ToString();
-            Pasos.StepIndex = (Editado.Progreso / 25);
-            Descripción.Text = Editado.Descripción.Replace("\\n", Environment.NewLine);
-            Nombre.Text = Editado.Nombre;
-            Fecha.Text = Editado.FechaCreación;
-            foreach (ItemDeproyecto item in Cliente.Items)
+            ItemActual = _principal.ItemDeProyectos;
+            Pagado.Text = ItemActual.Pagado.ToString();
+            Total.Text = ItemActual.Precio.ToString();
+            Pasos.StepIndex = (ItemActual.Progreso / 25);
+            Descripción.Text = ItemActual.Descripción;
+            Nombre.Text = ItemActual.Nombre;
+            Fecha.Text = ItemActual.FechaCreación;
+            foreach (ItemDecliente item in Cliente.Items)
             {
-                if (item.Nombre == Editado.Cliente)
+                if (item.ID == ItemActual.Cliente)
                 {
                     Cliente.SelectedItem = item;
                     break;
                 }
-                else if (Editado.Cliente == "" && item.Nombre == "Desconocido")
-                {
-                    Cliente.SelectedItem = item;
-                }
             }
-            if (Editado.ID != string.Empty)
+            if (ItemActual.ID != string.Empty)
             {
                 IconoPrevio.Visibility = Visibility.Collapsed;
-                try
+                if (ItemActual.Imagen == null)
                 {
-                    Preview.Source = Editado.ImagenReal;
-                }
-                catch
-                {
-                    // En caso de que el enlace no sea válido, asignar una imagen predeterminada
                     BitmapImage fallbackBitmap = new BitmapImage();
                     fallbackBitmap.BeginInit();
                     fallbackBitmap.UriSource = new Uri("pack://application:,,,/404.png", UriKind.Absolute);
                     fallbackBitmap.EndInit();
                     Preview.Source = fallbackBitmap;
                 }
+                else
+                {
+                    try
+                    {
+                        Preview.Source = ManejoDeImagenes.BytesAImagen(ItemActual.Imagen);
+                    }
+                    catch
+                    {
+                        BitmapImage fallbackBitmap = new BitmapImage();
+                        fallbackBitmap.BeginInit();
+                        fallbackBitmap.UriSource = new Uri("pack://application:,,,/404.png", UriKind.Absolute);
+                        fallbackBitmap.EndInit();
+                        Preview.Source = fallbackBitmap;
+                    }
+                }
                 Duplicador.Visibility = Visibility.Visible;
                 Borrador.Visibility = Visibility.Visible;
             }
         }
+        /// <summary>
+        /// Función para cargar los clientes disponibles en el dropdown
+        /// </summary>
         private void CargarDropDown()
         {
-            MainWindow ventana = System.Windows.Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            var items = new ObservableCollection<ItemDeproyecto>();
+            var items = new ObservableCollection<ItemDecliente>();
 
-            foreach (ItemAgenda p in pri.Agenda)
+            foreach (ItemAgenda p in _principal.Agenda)
             {
-                if (p.TipoContacto == "Cliente")
-                {
-                    items.Add(new ItemDeproyecto
+                items.Add(new ItemDecliente
                     {
-                        Nombre = p.Nombre,
-                        Descripción = p.Descripción.Replace("\\n", Environment.NewLine)
-                    });
-                }
-                if (p.TipoContacto == "Trabajador")
-                {
-                    items.Add(new ItemDeproyecto
-                    {
-                        Nombre = p.Nombre,
-                        Descripción = p.Descripción.Replace("\\n", Environment.NewLine)
-                    });
-                }
+                    Nombre = p.Nombre,
+                    ID = p.ID,
+                    Descripción = p.Descripción.Replace("\\n", Environment.NewLine)
+                });
             }
-            items.Add(new ItemDeproyecto
+            items.Add(new ItemDecliente
             {
                 Nombre = "Desconocido",
-                Descripción = "Aún no se ha agregado ese proveedor a la agenda de la empresa"
+                ID = "0",
+                Descripción = "Aún no se ha agregado ese cliente a la agenda de la empresa"
             });
-            Itemsproyectos = items;
-            Cliente.ItemsSource = Itemsproyectos.OrderBy(x => x.Nombre);
+            ItemsDecliente = items;
+            Cliente.ItemsSource = ItemsDecliente.OrderBy(x => x.Nombre);
         }
+        /// <summary>
+        /// Función para guardar la información del item en la base de datos
+        /// </summary>
+        /// <param name="sender">Objeto que desencadenó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void Guardar(object sender, MouseButtonEventArgs e)
         {
-            var imagenuwu = "";
-            if (ImagenSeleccionada)
+            if (Nombre.Text != "" && Descripción.Text != "" && Cliente.SelectedItem != null)
             {
-                GC.Collect(); //fuerza a que los recursos no utilizados se borren para que al cargar denuevo se vuelvan a pedir
-                imagenuwu = Preview.Source.ToString().Replace("file:", "").Replace("///C:", "C:").Replace("///D:", "D:").Replace("///E:", "E:");
-            }
-            if (Total.Text != "" && Descripción.Text != "" && Nombre.Text != "")
-            {
-                var cliente = "Desconocido";
-                if (Cliente.SelectedItem is ItemDeproyecto clienteseleccionado)
-                {
-                    cliente = clienteseleccionado.Nombre;
-                }
-
+                //FASE 1: Preparar la información del objeto
                 if (Pagado.Text == "") { Pagado.Text = "0.00"; }
                 if (Fecha.Text == "") { Fecha.SelectedDate = DateTime.Now; }
-
+                if (Total.Text == "") { Total.Text = "0.00"; }
+                ItemDecliente clienteseleccionado = Cliente.SelectedItem as ItemDecliente;
+                var cliente = "0";
+                if (clienteseleccionado != null)
+                {
+                    cliente = clienteseleccionado.ID;
+                }
                 ItemProyecto ITEM = new ItemProyecto()
                 {
                     Nombre = Nombre.Text.Replace(";", ""),
@@ -149,139 +180,160 @@ namespace GestorX.Pestañas
                     Pagado = float.Parse(Pagado.Text.Replace(",", "")),
                 };
 
-                bool itemrepetido = false;
-
-                MainWindow ventana = System.Windows.Window.GetWindow(this) as MainWindow;
-                Principal pri = ventana.Contenido.Content as Principal;
-                if (imagenuwu != "")
+                //FASE 2: Preparar la imagen del objeto
+                GC.Collect();
+                if (Preview.Source == null)
                 {
-                    ITEM.Imagen = imagenuwu;
-                }
-                foreach (ItemProyecto item in pri.Proyectos)
-                {
-                    if (item.Cliente == ITEM.Cliente && item.Nombre == ITEM.Nombre)
+                    //analiza si el objeto ya tiene una imágen asignada y en caso de tenerla la usa, sino asigna una por defecto
+                    if (ItemActual.Imagen != null)
                     {
-                        itemrepetido = true;
-                    }
-                }
-
-                if (Editado.ID == string.Empty)
-                {
-                    if (!itemrepetido)
-                    {
-                        if (!ImagenSeleccionada && ITEM.Imagen == "")
-                        {
-                            ITEM.Imagen = "\\\\suitpumpkin\\Trabajo\\Bases de Datos\\Imagenes\\ProyectoBase.jpg";
-                        }
-                        ITEM.ID = Editado.ID;
-                        ITEM.Carpeta = System.IO.Path.Combine(Ubicaciones.CarpetaProyectos, $"P-{Editado.ID}");
-                        ITEM.CarpetaEditables = System.IO.Path.Combine(Ubicaciones.CarpetaProyectos, $"P-{Editado.ID}/Editables");
-                        ITEM.CarpetaMockups = System.IO.Path.Combine(Ubicaciones.CarpetaProyectos, $"P-{Editado.ID}/Mockups");
-                        ITEM.CarpetaResultados = System.IO.Path.Combine(Ubicaciones.CarpetaProyectos, $"P-{Editado.ID}/Resultados");
-                        ItemProyecto.Create(ITEM, pri.Proyectos);
-                        pri.Subpestaña.Content = new Proyectos();
+                        ITEM.Imagen = ItemActual.Imagen;
                     }
                     else
                     {
-                        HandyControl.Controls.MessageBox.Show($"El cliente {cliente} ya tiene un proyecto llamado {Nombre.Text}, revisalo antes de agregarlo");
-                        Nombre.Focus();
-                        Nombre.SelectAll();
+                        BitmapImage fallbackBitmap = new BitmapImage();
+                        fallbackBitmap.BeginInit();
+                        fallbackBitmap.UriSource = new Uri("pack://application:,,,/ProyectoBase.png", UriKind.Absolute);
+                        fallbackBitmap.EndInit();
+                        Preview.Source = fallbackBitmap;
                     }
                 }
+                if (Preview.Source.ToString() != null)
+                {
+                    if (Preview.Source is BitmapImage imagen)
+                    {
+                        using (MemoryStream stream = new MemoryStream())
+                        {
+                            BitmapEncoder encoder = new PngBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(imagen));
+                            encoder.Save(stream);
+                            ITEM.Imagen = stream.ToArray();
+                        }
+                    }
+                    else
+                    {
+                        ITEM.Imagen = ManejoDeImagenes.ImagenABytes(Preview.Source.ToString().Replace("file:", "").Replace("///C:", "C:").Replace("///D:", "D:").Replace("///E:", "E:"));
+                    }
+                }
+
+                //FASE 3: Guardar o actualizar el objeto
+                if (ItemActual.ID == string.Empty) { ItemProyecto.Create(ITEM); }
                 else
                 {
-                    ITEM.ID = Editado.ID;
-                    ItemProyecto.Update(ITEM, pri.Proyectos);
-                    pri.Subpestaña.Content = new Proyectos();
+                    ITEM.ID = ItemActual.ID;
+                    ItemProyecto.Update(ITEM);
                 }
+                //FASE 4: salir
+                _principal.Subpestaña.Content = new Proyectos();
             }
             else
             {
                 HandyControl.Controls.MessageBox.Show("Rellena todos los campos");
             }
         }
+        /// <summary>
+        /// Función para guardar un duplicado del item actual en la base de datos
+        /// </summary>
+        /// <param name="sender">Objeto que desencadenó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void Duplicar(object sender, MouseButtonEventArgs e)
         {
-            if (Total.Text != "" && Descripción.Text != "" && Nombre.Text != "")
+            if (Nombre.Text != "" && Descripción.Text != "" && Cliente.SelectedItem != null)
             {
-                ItemDeproyecto clienteseleccionado = Cliente.SelectedItem as ItemDeproyecto;
-                if (Editado.Nombre != Nombre.Text || Editado.Cliente != clienteseleccionado.Nombre)
+                if (ItemActual.Nombre != Nombre.Text)
                 {
-                    MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show($"¿Guardar {Nombre.Text} como copia de {Editado.Nombre}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+                    MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show($"¿Guardar {Nombre.Text} como copia de {ItemActual.Nombre}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
                     if (respuesta == MessageBoxResult.Yes)
                     {
-                        var cliente = "Desconocido";
-                        if (clienteseleccionado != null)
-                        {
-                            cliente = clienteseleccionado.Nombre;
-                        }
-
+                        //FASE 1: Preparar la información del objeto
                         if (Pagado.Text == "") { Pagado.Text = "0.00"; }
                         if (Fecha.Text == "") { Fecha.SelectedDate = DateTime.Now; }
+                        if (Total.Text == "") { Total.Text = "0.00"; }
+
+                        ItemDecliente clienteseleccionado = Cliente.SelectedItem as ItemDecliente;
+                        var cliente = "0";
+                        if (clienteseleccionado != null)
+                        {
+                            cliente = clienteseleccionado.ID;
+                        }
 
                         ItemProyecto ITEM = new ItemProyecto()
                         {
-                            Nombre = Nombre.Text.Replace(";", ""),
-                            Descripción = Descripción.Text.Replace(";", "").Replace(Environment.NewLine, "\\n"),
+                            Nombre = Nombre.Text,
+                            Descripción = Descripción.Text,
                             Progreso = Pasos.StepIndex * 25,
-                            FechaCreación = Fecha.Text.Replace(",", ""),
-                            Precio = float.Parse(Total.Text.Replace(",", "")),
-                            Pagado = float.Parse(Pagado.Text.Replace(",", "")),
+                            FechaCreación = Fecha.Text,
+                            Precio = float.Parse(Total.Text),
+                            Cliente = cliente,
+                            Pagado = float.Parse(Pagado.Text),
                         };
 
-                        bool itemrepetido = false;
 
-                        MainWindow ventana = System.Windows.Window.GetWindow(this) as MainWindow;
-                        Principal pri = ventana.Contenido.Content as Principal;
-
-                        foreach (ItemProyecto item in pri.Proyectos)
+                        //FASE 2: Preparar la imagen del objeto
+                        GC.Collect();
+                        if (Preview.Source == null)
                         {
-                            if (item.Cliente == ITEM.Cliente && item.Nombre == ITEM.Nombre)
+                            //analiza si el objeto ya tiene una imágen asignada y en caso de tenerla la usa, sino asigna una por defecto
+                            if (ItemActual.Imagen != null)
                             {
-                                itemrepetido = true;
+                                ITEM.Imagen = ItemActual.Imagen;
+                            }
+                            else
+                            {
+                                BitmapImage fallbackBitmap = new BitmapImage();
+                                fallbackBitmap.BeginInit();
+                                fallbackBitmap.UriSource = new Uri("pack://application:,,,/InventarioBase.png", UriKind.Absolute);
+                                fallbackBitmap.EndInit();
+                                Preview.Source = fallbackBitmap;
+                            }
+                        }
+                        if (Preview.Source.ToString() != null)
+                        {
+                            if (Preview.Source is BitmapImage imagen)
+                            {
+                                using (MemoryStream stream = new MemoryStream())
+                                {
+                                    BitmapEncoder encoder = new PngBitmapEncoder();
+                                    encoder.Frames.Add(BitmapFrame.Create(imagen));
+                                    encoder.Save(stream);
+                                    ITEM.Imagen = stream.ToArray();
+                                }
+                            }
+                            else
+                            {
+                                ITEM.Imagen = ManejoDeImagenes.ImagenABytes(Preview.Source.ToString().Replace("file:", "").Replace("///C:", "C:").Replace("///D:", "D:").Replace("///E:", "E:"));
                             }
                         }
 
-                        if (!itemrepetido)
-                        {
-                            ItemProyecto.Create(ITEM, pri.Proyectos);
-                            pri.Subpestaña.Content = new Inventario();
-                        }
-                        else
-                        {
-                            HandyControl.Controls.MessageBox.Show($"El cliente {cliente} ya tiene un proyecto llamado {Nombre.Text}, revisalo antes de agregarlo");
-                            Nombre.Focus();
-                            Nombre.SelectAll();
-                        }
-                        //salir
-                        pri.Subpestaña.Content = new Proyectos();
+                        //FASE 3: Guardar el objeto duplicado
+                        ItemProyecto.Create(ITEM);
+
+                        //FASE 4: salir
+                        _principal.Subpestaña.Content = new Proyectos();
                     }
                 }
                 else
                 {
-                    HandyControl.Controls.MessageBox.Show("Para crear una copia debes cambiar el nombre o el cliente");
+                    HandyControl.Controls.MessageBox.Show("Para crear una copia debes cambiar el nombre");
                 }
             }
             else
             {
-                HandyControl.Controls.MessageBox.Show("Rellena todos los campos");
+                HandyControl.Controls.MessageBox.Show("Un proyecto necesita al menos un nombre y descripción");
             }
         }
         private void Cancelar(object sender, MouseButtonEventArgs e)
         {
-            MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            Principal pri = ventana.Contenido.Content as Principal;
-            ItemDeproyecto clienteseleccionado = Cliente.SelectedItem as ItemDeproyecto;
-            if (Editado.Nombre == Nombre.Text && Editado.Precio.ToString() == Total.Text && Editado.Descripción == Descripción.Text && Editado.Pagado.ToString() == Pagado.Text && Editado.Cliente == clienteseleccionado.Nombre) //significa que aun no se edita nada
+            if (ItemActual.Nombre == Nombre.Text && ItemActual.Precio.ToString() == Total.Text && ItemActual.Descripción == Descripción.Text && ItemActual.Pagado.ToString() == Pagado.Text) //significa que aun no se edita nada
             {
-                pri.Subpestaña.Content = new Proyectos();
+                _principal.Subpestaña.Content = new Proyectos();
             }
             else
             {
                 MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show("¿Salir sin guardar?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
                 if (respuesta == MessageBoxResult.Yes)
                 {
-                    pri.Subpestaña.Content = new Proyectos();
+                    _principal.Subpestaña.Content = new Proyectos();
                 }
             }
         }
@@ -304,7 +356,7 @@ namespace GestorX.Pestañas
                 e.Handled = !(e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9);
             }
         }
-        private void Preview_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void SeleccionandoImagen(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -312,19 +364,14 @@ namespace GestorX.Pestañas
                 {
                     Filter = "Archivos de imagen|*.png;*.jpg;*.jpeg|Todos los archivos|*.*"
                 };
-                if (Editado.CarpetaResultados != null) { openFileDialog.InitialDirectory = Editado.CarpetaResultados.Replace("/", "\\"); }
                 if (openFileDialog.ShowDialog() == true)
                 {
                     string filePath = openFileDialog.FileName;
-
-                    // Cargar la imagen en el Image control
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(filePath);
                     bitmap.EndInit();
-
                     Preview.Source = bitmap;
-                    ImagenSeleccionada = true;
                 }
             }
             catch (Exception ex)
@@ -334,13 +381,13 @@ namespace GestorX.Pestañas
         }
         private void Remover(object sender, MouseButtonEventArgs e)
         {
-            MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show($"¿Seguro de querer eliminar toda la información relacionada a {Editado.Nombre}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show($"¿Seguro de querer eliminar toda la información relacionada a {ItemActual.Nombre}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (respuesta == MessageBoxResult.Yes)
             {
                 MainWindow ventana = Window.GetWindow(this) as MainWindow;
                 Principal pri = ventana.Contenido.Content as Principal;
-                ItemProyecto.Delete(Editado, pri.Proyectos);
-                HandyControl.Controls.MessageBox.Show($"{Editado.Nombre} Eliminado correctamente");
+                ItemProyecto.Delete(ItemActual.ID);
+                HandyControl.Controls.MessageBox.Show($"{ItemActual.Nombre} Eliminado correctamente");
                 pri.Subpestaña.Content = new Proyectos();
             }
             else if (respuesta == MessageBoxResult.No)

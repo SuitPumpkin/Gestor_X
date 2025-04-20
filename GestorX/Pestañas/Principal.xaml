@@ -7,7 +7,7 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:local="clr-namespace:GestorX.Pestañas"
              mc:Ignorable="d" 
-             d:DesignHeight="440" d:DesignWidth="630" Loaded="UserControl_Loaded">
+             d:DesignHeight="440" d:DesignWidth="630">
     <Grid>
         <hc:TransitioningContentControl x:Name="Subpestaña">
             <hc:TransitioningContentControl.TransitionStoryboard>

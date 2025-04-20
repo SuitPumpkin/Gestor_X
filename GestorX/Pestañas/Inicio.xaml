@@ -8,7 +8,7 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:GestorX.Pestañas"
              mc:Ignorable="d" 
-             d:DesignHeight="440" d:DesignWidth="630" Loaded="UserControl_Loaded">
+             d:DesignHeight="440" d:DesignWidth="630">
     <UserControl.Resources>
         <DrawingImage x:Key="Arrow1">
             <DrawingImage.Drawing>
@@ -258,7 +258,7 @@
                                     <!-- Aquí se generarán dinámicamente las notas -->
                                 </hc:UniformSpacingPanel>
                                 <!-- Botón para Agregar Nueva Nota -->
-                                <Button Width="35" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderBrush="Black" BorderThickness="1" Click="AñadirNota">
+                                <Button Width="35" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderBrush="Black" BorderThickness="1" Click="AñadirNota" Cursor="Hand">
                                     <fa:IconBlock Icon="Add" IconFont="Solid" FontSize="18"/>
                                 </Button>
                             </StackPanel>
