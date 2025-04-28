@@ -31,11 +31,25 @@ namespace GestorX.Pestañas
         /// <summary>
         /// Referencia a la ventana principal
         /// </summary>
-        private Principal _principal;
+        private MainWindow _ventana;
         /// <summary>
         /// Almacenta la información de los items actuales del inventario
         /// </summary>
-        public ObservableCollection<ItemInventario> Items { get; set; }
+        private ObservableCollection<ItemInventario> _originalItems;
+        private ObservableCollection<ItemInventario> _allItems;
+        private ObservableCollection<dynamic> _currentPageItems;
+
+        public ObservableCollection<ItemInventario> Items 
+        { 
+            get => _allItems;
+            set
+            {
+                _originalItems = value;
+                _allItems = value;
+                UpdatePagination();
+            }
+        }
+
         /// <summary>
         /// Constructor del componente
         /// </summary>
@@ -56,127 +70,100 @@ namespace GestorX.Pestañas
             }
             Application.Current.Dispatcher.Invoke(() =>
             {
-                InventarioList.Items.Refresh();
+                Lista.Items.Refresh();
             });
         }
         private void CargarItems()
         {
-            MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            _principal = ventana.Contenido.Content as Principal;
-            Items = _principal.Inventario;
-            InventarioList.ItemsSource = Items.OrderBy(x => x.Nombre);
+            _ventana = Window.GetWindow(this) as MainWindow;
+            Items = _ventana.Inventario;
             
-            float totalValor = 0;
-            try
+            // Get all providers from the agenda
+            var proveedores = _ventana.Agenda.Where(x => x.TipoDeContacto == "Proveedor").ToDictionary(x => x.ID, x => x.Nombre);
+            
+            // Create a new collection with the provider names instead of IDs
+            var itemsConNombres = Items.Select(item => new
             {
-                BaseDeDatos.ComandoDeLectura("SELECT COALESCE(SUM(Precio * Cantidad), 0) AS Total FROM Inventario", reader => {
-                    if (!reader.IsDBNull(reader.GetOrdinal("Total")))
-                    {
-                        totalValor = float.Parse($"{reader["Total"]}");
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error al calcular el valor total: {ex.Message}");
-            }
-            ValorInventario.Text = totalValor.ToString();
+                Item = item,
+                NombreProveedor = proveedores.TryGetValue(item.Vendedor, out string nombre) ? nombre : "Desconocido"
+            }).ToList();
+
+            // Set the ItemsSource with the provider names
+            Lista.ItemsSource = itemsConNombres;
         }
         private void Agregar(object sender, MouseButtonEventArgs e)
         {
-            _principal.ItemDelInventario = new ItemInventario();
-            _principal.Subpestaña.Content = new InventarioAdd();
+            _ventana.Pestaña.Content = new ItemAdd() { Seleccionado = Entidad.Inventario };
         }
         private void Editar(object sender, MouseButtonEventArgs e)
         {
-            var seleccionado = InventarioList.SelectedItem;
+            var seleccionado = Lista.SelectedItem;
             if (seleccionado != null)
             {
-                _principal.ItemDelInventario = ((ItemInventario)seleccionado);
-                _principal.Subpestaña.Content = new InventarioAdd();
+                dynamic item = seleccionado;
+                _ventana.Pestaña.Content = new ItemAdd() { Seleccionado = Entidad.Inventario, ItemActual = item.Item };
+            }
+        }
+        public void UpdatePagination()
+        {
+            if (_allItems == null) return;
+
+            int totalItems = _allItems.Count;
+            int itemsPerPage = Paginador.DataCountPerPage;
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            Paginador.MaxPageCount = totalPages;
+            UpdateCurrentPage();
+        }
+
+        private void UpdateCurrentPage()
+        {
+            if (_allItems == null) return;
+
+            int startIndex = (Paginador.PageIndex - 1) * Paginador.DataCountPerPage;
+            int count = Math.Min(Paginador.DataCountPerPage, _allItems.Count - startIndex);
+
+            var proveedores = _ventana.Agenda.Where(x => x.TipoDeContacto == "Proveedor").ToDictionary(x => x.ID, x => x.Nombre);
+            
+            _currentPageItems = new ObservableCollection<dynamic>(
+                _allItems.Skip(startIndex).Take(count).Select(item => new
+                {
+                    Item = item,
+                    NombreProveedor = proveedores.TryGetValue(item.Vendedor, out string nombre) ? nombre : "Desconocido"
+                })
+            );
+
+            Lista.ItemsSource = _currentPageItems;
+        }
+
+        private void Paginador_PageUpdated(object sender, FunctionEventArgs<int> e)
+        {
+            UpdateCurrentPage();
+        }
+
+        private void BusquedaUpdate(object sender, TextChangedEventArgs e)
+        {
+            if (_originalItems == null) return;
+
+            if (string.IsNullOrWhiteSpace(BarraDeBusqueda.Text))
+            {
+                // Si la barra de búsqueda está vacía, restaurar los datos originales
+                _allItems = new ObservableCollection<ItemInventario>(_originalItems);
             }
             else
             {
-                MessageBox.Show("Primero selecciona un item");
+                // Filtrar los datos basados en el texto de búsqueda
+                _allItems = new ObservableCollection<ItemInventario>(
+                    _originalItems.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower()))
+                );
             }
-        }
-        private void Ordenar(object sender, MouseButtonEventArgs e)
-        {
-            var items = new ObservableCollection<ItemInventario>();
-            MainWindow ventana = MainWindow.GetWindow(this) as MainWindow;
-            switch (IconoOrdenar.Icon)
-            {
-                case IconChar.ArrowDownAZ:
-                    //cambiar orden lista
-                    items = new ObservableCollection<ItemInventario>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())).OrderByDescending(x => x.Nombre));
-                    InventarioList.ItemsSource = items;
-                    IconoOrdenar.Icon = IconChar.ArrowDownZA;
-                    ventana.Notificación(new GrowlInfo
-                    {
-                        Message = "Nombre: Z - A",
-                        ShowDateTime = false,
-                        WaitTime = 3,
-                        Token = "Noti"
-                    },"Info");
-                    break;
-                case IconChar.ArrowDownZA:
-                    //cambiar orden lista
-                    items = new ObservableCollection<ItemInventario>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())).OrderBy(x => x.Cantidad));
-                    InventarioList.ItemsSource = items;
-                    IconoOrdenar.Icon = IconChar.ArrowDown19;
-                    ventana.Notificación(new GrowlInfo
-                    {
-                        Message = "Cantidad: 1 - 9",
-                        ShowDateTime = false,
-                        WaitTime = 3,
-                        Token = "Noti"
-                    }, "Info");
-                    break;
-                case IconChar.ArrowDown19:
-                    //cambiar orden lista
-                    items = new ObservableCollection<ItemInventario>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())).OrderByDescending(x => x.Cantidad));
-                    InventarioList.ItemsSource = items;
-                    IconoOrdenar.Icon = IconChar.ArrowDown91;
-                    ventana.Notificación(new GrowlInfo
-                    {
-                        Message = "Cantidad: 9 - 1",
-                        ShowDateTime = false,
-                        WaitTime = 3,
-                        Token = "Noti"
-                    }, "Info");
-                    break;
-                case IconChar.ArrowDown91:
-                    //cambiar orden lista
-                    items = new ObservableCollection<ItemInventario>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())).OrderBy(x => x.Nombre));
-                    InventarioList.ItemsSource = items;
-                    IconoOrdenar.Icon = IconChar.ArrowDownAZ;
-                    ventana.Notificación(new GrowlInfo
-                    {
-                        Message = "Nombre: A - Z",
-                        ShowDateTime = false,
-                        WaitTime = 3,
-                        Token = "Noti"
-                    }, "Info");
-                    break;
-                default:
-                    break;
-            }
-        }
-        private void BusquedaUpdate(object sender, TextChangedEventArgs e)
-        {
-            var items = new ObservableCollection<ItemInventario>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())));
-            InventarioList.ItemsSource = items;
-        }
-        private void ItemDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var seleccionado = InventarioList.SelectedItem;
-            if (seleccionado != null)
-            {
-                MainWindow ventana = Window.GetWindow(this) as MainWindow;
-                Principal pri = ventana.Contenido.Content as Principal;
-                pri.ItemDelInventario = ((ItemInventario)seleccionado);
-                pri.Subpestaña.Content = new InventarioAdd();
-            }
+            
+            // Actualizar la paginación
+            UpdatePagination();
+            
+            // Resetear a la primera página
+            Paginador.PageIndex = 1;
+            UpdateCurrentPage();
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {

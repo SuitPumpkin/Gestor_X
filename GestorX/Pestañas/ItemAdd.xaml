@@ -1,0 +1,224 @@
+﻿<UserControl x:Class="GestorX.Pestañas.ItemAdd"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:local="clr-namespace:GestorX.Pestañas"
+             xmlns:componentes="clr-namespace:GestorX.Componentes"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="630">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Diccionario.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Foto-->
+            <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" MouseLeftButtonDown="SeleccionandoImagen" Cursor="Hand">
+                <Grid>
+                    <fa:IconBlock x:Name="IconoPrevio" Icon="None" IconFont="Solid" FontSize="140" Opacity="0.7"/>
+                    <Image x:Name="Preview" MinWidth="205" MinHeight="150" Stretch="Uniform"/>
+                    <componentes:TextoConBorde Texto="Foto" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                </Grid>
+            </Border>
+            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                <!--Información general-->
+                <hc:UniformSpacingPanel Spacing="10" Orientation="Vertical">
+                    <!-- Nombre-->
+                    <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                        <Grid>
+                            <hc:TextBox x:Name="Nombre" hc:InfoElement.Placeholder="Pepito Lopez" Style="{StaticResource InputFieldStyle}" BorderBrush="Transparent"/>
+                            <componentes:TextoConBorde Texto="Nombre" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                        </Grid>
+                    </Border>
+                    <!-- Descripción-->
+                    <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                        <Grid>
+                            <hc:TextBox hc:InfoElement.Placeholder="Bla Bla Bla..." AcceptsReturn="True" x:Name="Descripción" Style="{StaticResource InputFieldStyle}" TextAlignment="Justify" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" BorderBrush="Transparent" Height="240" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" VerticalAlignment="Bottom"/>
+                            <componentes:TextoConBorde Texto="Descripción" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                        </Grid>
+                    </Border>
+                </hc:UniformSpacingPanel>
+                <!--Información especial-->
+                <Grid Margin="0,10,0,0">
+                    <hc:UniformSpacingPanel Spacing="10" Orientation="Vertical" x:Name="ControlesAGENDA" Visibility="Collapsed">
+                        <!-- Telefono-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                            <Grid>
+                                <hc:TextBox x:Name="Telefono" hc:InfoElement.Placeholder="33 0000 0000" Style="{StaticResource InputFieldStyle}" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderBrush="Transparent" InputScope="TelephoneNumber" hc:InfoElement.RegexPattern="^\d{10}$"/>
+                                <componentes:TextoConBorde Texto="Telefono" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Correo-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                            <Grid>
+                                <hc:TextBox x:Name="Correo" hc:InfoElement.Placeholder="Correo@gmail.com" Style="{StaticResource InputFieldStyle}" BorderBrush="Transparent" InputScope="EmailSmtpAddress"/>
+                                <componentes:TextoConBorde Texto="Correo" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Pagina Web-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                            <Grid>
+                                <hc:TextBox x:Name="PaginaWeb" hc:InfoElement.Placeholder="www.pagina.com" Style="{StaticResource InputFieldStyle}" BorderBrush="Transparent"/>
+                                <componentes:TextoConBorde Texto="Pagina Web" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Ubicación-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                            <Grid>
+                                <hc:TextBox x:Name="Ubicación" hc:InfoElement.Placeholder="maps.app.goo.gl/4a" Style="{StaticResource InputFieldStyle}" BorderBrush="Transparent"/>
+                                <componentes:TextoConBorde Texto="Ubicación" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Tipo de Contacto-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4">
+                            <Grid>
+                                <hc:ComboBox x:Name="TipoDeContacto" hc:InfoElement.Placeholder="Seleccionar" Style="{StaticResource InputFieldStyle}" BorderThickness="0" Cursor="Hand">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Nombre}" ToolTip="{Binding Descripción}" Cursor="Hand"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <componentes:TextoConBorde Texto="Tipo de contacto" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                    </hc:UniformSpacingPanel>
+                    <hc:UniformSpacingPanel Spacing="10" Orientation="Vertical" x:Name="ControlesINVENTARIO" Visibility="Collapsed">
+                        <!-- Cantidad-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:TextBox x:Name="Cantidad" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderThickness="0" Style="{StaticResource InputFieldStyle}" Height="30"/>
+                                <componentes:TextoConBorde Texto="Cantidad" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Unidad de Medida-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:TextBox x:Name="Unidad" hc:InfoElement.Placeholder="Litros" Style="{StaticResource InputFieldStyle}" BorderBrush="Transparent"/>
+                                <componentes:TextoConBorde Texto="Unidad de Medida" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Costo-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:TextBox x:Name="Costo" Background="Transparent" Foreground="#262626" Opacity="0.6" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderThickness="0" Style="{StaticResource InputFieldStyle}" Height="30"/>
+                                <componentes:TextoConBorde Texto="Costo" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Proveedor-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:ComboBox x:Name="Proveedor" hc:InfoElement.Placeholder="Seleccionar" Style="{StaticResource InputFieldStyle}" BorderThickness="0" Cursor="Hand">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Nombre}" ToolTip="{Binding Descripción}" Cursor="Hand"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <componentes:TextoConBorde Texto="Proveedor" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                    </hc:UniformSpacingPanel>
+                    <hc:UniformSpacingPanel Spacing="10" Orientation="Vertical" x:Name="ControlesPROYECTO" Visibility="Collapsed">
+                        <!-- Cliente-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:ComboBox x:Name="Cliente" hc:InfoElement.Placeholder="Seleccionar" Style="{StaticResource InputFieldStyle}" BorderThickness="0" Cursor="Hand">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Nombre}" ToolTip="{Binding Descripción}" Cursor="Hand"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <componentes:TextoConBorde Texto="Cliente" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Total / Pagado-->
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,3,0">
+                                <Grid>
+                                    <hc:TextBox x:Name="Pagado" hc:InfoElement.Placeholder="0.00" Style="{StaticResource InputFieldStyle}" VerticalAlignment="Top" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderBrush="Transparent" Padding="12,0,10,0"/>
+                                    <componentes:TextoConBorde Texto="Pagado" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                                </Grid>
+                            </Border>
+                            <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Grid.Column="1" Margin="3,0,0,0">
+                                <Grid>
+                                    <hc:TextBox x:Name="Total" hc:InfoElement.Placeholder="0.00" Style="{StaticResource InputFieldStyle}" VerticalAlignment="Top" PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" BorderBrush="Transparent" Padding="12,0,5,0"/>
+                                    <componentes:TextoConBorde Texto="Total" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <!-- Fecha Creación-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:DatePicker x:Name="Fecha" Style="{StaticResource InputFieldStyle}" VerticalAlignment="Top" BorderThickness="0"/>
+                                <componentes:TextoConBorde Texto="Fecha de Creación" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                        <!-- Progreso-->
+                        <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <hc:StepBar VerticalAlignment="Center" IsMouseSelectable="True" x:Name="Pasos">
+                                    <hc:StepBarItem ToolTip="Se creó el proyecto" MouseLeftButtonDown="StepbarClick" Cursor="Hand">
+                                        <hc:StepBarItem.Content>
+                                            <TextBlock Text="Creación" Margin="0,-5,0,0" FontWeight="Bold" FontSize="10"/>
+                                        </hc:StepBarItem.Content>
+                                    </hc:StepBarItem>
+                                    <hc:StepBarItem ToolTip="Está en proceso de diseño y aun se ha aprovado" MouseLeftButtonDown="StepbarClick" Cursor="Hand">
+                                        <hc:StepBarItem.Content>
+                                            <TextBlock Text="Diseño" Margin="0,-5,0,0" FontWeight="Bold" FontSize="10"/>
+                                        </hc:StepBarItem.Content>
+                                    </hc:StepBarItem>
+                                    <hc:StepBarItem ToolTip="Se está creando el maquetado del proyecto ya aprovado" MouseLeftButtonDown="StepbarClick" Cursor="Hand">
+                                        <hc:StepBarItem.Content>
+                                            <TextBlock Text="Maquetado" Margin="0,-5,0,0" FontWeight="Bold" FontSize="10"/>
+                                        </hc:StepBarItem.Content>
+                                    </hc:StepBarItem>
+                                    <hc:StepBarItem ToolTip="Se estan exportando o imprimiendo los resultados del diseño" MouseLeftButtonDown="StepbarClick" Cursor="Hand">
+                                        <hc:StepBarItem.Content>
+                                            <TextBlock Text="Terminado" Margin="0,-5,0,0" FontWeight="Bold" FontSize="10"/>
+                                        </hc:StepBarItem.Content>
+                                    </hc:StepBarItem>
+                                    <hc:StepBarItem ToolTip="Se esta entregando y ya se ha entregado todo" MouseLeftButtonDown="StepbarClick" Cursor="Hand">
+                                        <hc:StepBarItem.Content>
+                                            <TextBlock Text="Entregado" Margin="0,-5,0,0" FontWeight="Bold" FontSize="10"/>
+                                        </hc:StepBarItem.Content>
+                                    </hc:StepBarItem>
+                                </hc:StepBar>
+                                <componentes:TextoConBorde Texto="Progreso" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                            </Grid>
+                        </Border>
+                    </hc:UniformSpacingPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <!-- Botones-->
+        <hc:UniformSpacingPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <hc:UniformSpacingPanel.Effect>
+                <DropShadowEffect Opacity="0.5" BlurRadius="10"/>
+            </hc:UniformSpacingPanel.Effect>
+            <hc:UniformSpacingPanel Spacing="10" Orientation="Vertical" Width="83" Margin="0,0,0,0">
+                <componentes:Botón1 x:Name="Duplicador" Icono="Copy" Texto="Duplicar" MouseLeftButtonDown="Duplicar" Visibility="Hidden"/>
+                <componentes:Botón1 Icono="Save" Texto="Guardar" MouseLeftButtonDown="Guardar"/>
+            </hc:UniformSpacingPanel>
+            <hc:UniformSpacingPanel Spacing="10" Orientation="Vertical" Width="83" Margin="0,0,0,0">
+                <componentes:Botón1 x:Name="Borrador" Icono="Trash" Texto="Remover" MouseLeftButtonDown="Remover" Visibility="Hidden"/>
+                <componentes:Botón1 Icono="Cancel" Texto="Cancelar" MouseLeftButtonDown="Cancelar"/>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

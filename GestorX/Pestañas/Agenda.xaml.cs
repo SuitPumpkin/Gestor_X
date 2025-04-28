@@ -26,16 +26,31 @@ namespace GestorX.Pestañas
         /// <summary>
         /// Referencia a la ventana principal
         /// </summary>
-        private Principal _principal;
+        private MainWindow _ventana;
         /// <summary>
         /// Almacenta la información de los items actuales de la agenda
         /// </summary>
-        public ObservableCollection<ItemAgenda> Items { get; set; }
+        private ObservableCollection<ItemAgenda> _originalItems;
+        private ObservableCollection<ItemAgenda> _allItems;
+        private ObservableCollection<ItemAgenda> _currentPageItems;
+
+        public ObservableCollection<ItemAgenda> Items 
+        { 
+            get => _currentPageItems;
+            set
+            {
+                _originalItems = value;
+                _allItems = value;
+                UpdatePagination();
+            }
+        }
+
         /// <summary>
         /// Constructor del componente
         /// </summary>
         public Agenda()
         {
+            DataContext = this;
             BaseDeDatos.BaseDeDatosActualizada += ActualizarItems;
             InitializeComponent();
         }
@@ -51,88 +66,55 @@ namespace GestorX.Pestañas
             }
             Application.Current.Dispatcher.Invoke(() =>
             {
-                AgendaList.Items.Refresh();
+                Lista.Items.Refresh();
             });
         }
         private void CargarItems()
         {
-            MainWindow ventana = Window.GetWindow(this) as MainWindow;
-            _principal = ventana.Contenido.Content as Principal;
-            Items = _principal.Agenda;
-            AgendaList.ItemsSource = Items.OrderBy(x => x.Nombre);
+            _ventana = Window.GetWindow(this) as MainWindow;
+            Items = _ventana.Agenda;
+            Lista.ItemsSource = Items;
         }
         private void Agregar(object sender, MouseButtonEventArgs e)
         {
-            _principal.ItemDeLaAgenda = new ItemAgenda();
-            _principal.Subpestaña.Content = new AgendaAdd();
+            _ventana.Pestaña.Content = new ItemAdd() { Seleccionado = Entidad.Agenda };
         }
         private void Editar(object sender, MouseButtonEventArgs e)
         {
-            var seleccionado = AgendaList.SelectedItem;
+            var seleccionado = Lista.SelectedItem;
             if (seleccionado != null)
             {
-                _principal.ItemDeLaAgenda = ((ItemAgenda)seleccionado);
-                _principal.Subpestaña.Content = new AgendaAdd();
-            }
-            else
-            {
-                MessageBox.Show("Primero selecciona un item");
-            }
-        }
-        private void Ordenar(object sender, MouseButtonEventArgs e)
-        {
-            var items = new ObservableCollection<ItemAgenda>();
-            MainWindow ventana = MainWindow.GetWindow(this) as MainWindow;
-            switch (IconoOrdenar.Icon)
-            {
-                case IconChar.ArrowDownAZ:
-                    //cambiar orden lista
-                    items = new ObservableCollection<ItemAgenda>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())).OrderByDescending(x => x.Nombre));
-                    AgendaList.ItemsSource = items;
-                    IconoOrdenar.Icon = IconChar.ArrowDownZA;
-                    ventana.Notificación(new GrowlInfo
-                    {
-                        Message = "Nombre: Z - A",
-                        ShowDateTime = false,
-                        WaitTime = 3,
-                        Token = "Noti"
-                    }, "Info");
-                    break;
-                case IconChar.ArrowDownZA:
-                    //cambiar orden lista
-                    items = new ObservableCollection<ItemAgenda>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())).OrderBy(x => x.Nombre));
-                    AgendaList.ItemsSource = items;
-                    IconoOrdenar.Icon = IconChar.ArrowDownAZ;
-                    ventana.Notificación(new GrowlInfo
-                    {
-                        Message = "Nombre: A - Z",
-                        ShowDateTime = false,
-                        WaitTime = 3,
-                        Token = "Noti"
-                    }, "Info");
-                    break;
-                default:
-                    break;
+                _ventana.Pestaña.Content = new ItemAdd() { Seleccionado = Entidad.Agenda, ItemActual = ((ItemAgenda)seleccionado) };
             }
         }
         private void BusquedaUpdate(object sender, TextChangedEventArgs e)
         {
-            var items = new ObservableCollection<ItemAgenda>(Items.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower())));
-            AgendaList.ItemsSource = items;
-        }
-        private void ItemDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var seleccionado = AgendaList.SelectedItem;
-            if (seleccionado != null)
+            if (_originalItems == null) return;
+
+            if (string.IsNullOrWhiteSpace(BarraDeBusqueda.Text))
             {
-                _principal.ItemDeLaAgenda = ((ItemAgenda)seleccionado);
-                _principal.Subpestaña.Content = new AgendaAdd();
+                // Si la barra de búsqueda está vacía, restaurar los datos originales
+                _allItems = new ObservableCollection<ItemAgenda>(_originalItems);
             }
+            else
+            {
+                // Filtrar los datos basados en el texto de búsqueda
+                _allItems = new ObservableCollection<ItemAgenda>(
+                    _originalItems.Where(x => x.Nombre.ToLower().Contains(BarraDeBusqueda.Text.ToLower()))
+                );
+            }
+            
+            // Actualizar la paginación
+            UpdatePagination();
+            
+            // Resetear a la primera página
+            Paginador.PageIndex = 1;
+            UpdateCurrentPage();
         }
-        private void EnviarCorreo(object sender, MouseButtonEventArgs e)
+        private void EnviarCorreo(object sender, RoutedEventArgs e)
         {
-            Border enviado = sender as Border;
-            string Correo = enviado.Tag.ToString();
+            Button button = sender as Button;
+            string Correo = button.Tag.ToString();
             try
             {
                 string asunto = "";
@@ -144,10 +126,10 @@ namespace GestorX.Pestañas
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-        private void EnviarWhatsapp(object sender, MouseButtonEventArgs e)
+        private void EnviarWhatsapp(object sender, RoutedEventArgs e)
         {
-            Border enviado = sender as Border;
-            string Whatsapp = enviado.Tag.ToString();
+            Button button = sender as Button;
+            string Whatsapp = button.Tag.ToString();
             try
             {
                 string mensaje = "Hola! Oye ";
@@ -162,10 +144,10 @@ namespace GestorX.Pestañas
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-        private void AbrirWeb(object sender, MouseButtonEventArgs e)
+        private void AbrirWeb(object sender, RoutedEventArgs e)
         {
-            Border enviado = sender as Border;
-            string Web = enviado.Tag.ToString();
+            Button button = sender as Button;
+            string Web = button.Tag.ToString();
             if (Uri.TryCreate(Web, UriKind.Absolute, out Uri uri) || uri != null || Web.ToLower() != "n/a")
             {
                 try
@@ -183,14 +165,13 @@ namespace GestorX.Pestañas
             }
             else
             {
-
                 MessageBox.Show($"No tiene pagina web");
             }
         }
-        private void AbrirMapa(object sender, MouseButtonEventArgs e)
+        private void AbrirMapa(object sender, RoutedEventArgs e)
         {
-            Border enviado = sender as Border;
-            string Mapa = enviado.Tag.ToString();
+            Button button = sender as Button;
+            string Mapa = button.Tag.ToString();
             if (Uri.TryCreate(Mapa, UriKind.Absolute, out Uri uri) || uri != null || Mapa.ToLower() != "n/a")
             {
                 if (Mapa.Length != 0)
@@ -213,6 +194,34 @@ namespace GestorX.Pestañas
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             CargarItems();
+        }
+        public void UpdatePagination()
+        {
+            if (_allItems == null) return;
+
+            int totalItems = _allItems.Count;
+            int itemsPerPage = Paginador.DataCountPerPage;
+            int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+            Paginador.MaxPageCount = totalPages;
+            UpdateCurrentPage();
+        }
+        private void UpdateCurrentPage()
+        {
+            if (_allItems == null) return;
+
+            int startIndex = (Paginador.PageIndex - 1) * Paginador.DataCountPerPage;
+            int count = Math.Min(Paginador.DataCountPerPage, _allItems.Count - startIndex);
+
+            _currentPageItems = new ObservableCollection<ItemAgenda>(
+                _allItems.Skip(startIndex).Take(count)
+            );
+
+            Lista.ItemsSource = _currentPageItems;
+        }
+        private void Paginador_PageUpdated(object sender, FunctionEventArgs<int> e)
+        {
+            UpdateCurrentPage();
         }
     }
 }

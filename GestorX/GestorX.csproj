@@ -77,9 +77,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Componentes\TextoConBorde.xaml.cs">
+      <DependentUpon>TextoConBorde.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pestañas\Herramientas.xaml.cs">
+      <DependentUpon>Herramientas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pestañas\ItemAdd.xaml.cs">
+      <DependentUpon>ItemAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ventanas\TextInputDialog.xaml.cs">
       <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="Componentes\TextoConBorde.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Diccionario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +113,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pestañas\Herramientas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pestañas\Inicio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,15 +125,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pestañas\AgendaAdd.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pestañas\InventarioAdd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pestañas\Principal.xaml">
+    <Page Include="Pestañas\ItemAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,11 +133,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pestañas\ProyectosAdd.xaml">
+    <Page Include="Ventanas\TextInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ventanas\TextInputDialog.xaml">
+    <Page Include="Componentes\Botón1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,27 +146,15 @@
     <Compile Include="Pestañas\Agenda.xaml.cs">
       <DependentUpon>Agenda.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pestañas\Clases.cs" />
+    <Compile Include="Clases.cs" />
     <Compile Include="Pestañas\Inicio.xaml.cs">
       <DependentUpon>Inicio.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pestañas\Inventario.xaml.cs">
       <DependentUpon>Inventario.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pestañas\AgendaAdd.xaml.cs">
-      <DependentUpon>AgendaAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pestañas\InventarioAdd.xaml.cs">
-      <DependentUpon>InventarioAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pestañas\Principal.xaml.cs">
-      <DependentUpon>Principal.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pestañas\Proyectos.xaml.cs">
       <DependentUpon>Proyectos.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pestañas\ProyectosAdd.xaml.cs">
-      <DependentUpon>ProyectosAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -205,6 +202,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ProyectoBase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Componentes\Botón1.xaml.cs">
+      <DependentUpon>Botón1.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

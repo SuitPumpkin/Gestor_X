@@ -126,9 +126,12 @@ namespace GestorX.Pestañas
             //TODO: Mover todas estas rutas a los settings del usuario (no del sistema) para que el usuario lo pueda modificar mediante los ajustes
             public static string Pendientes { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\pendientes.txt";
             public static string CarpetaProyectos { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\Proyectos";
-
-            //de aqui para abajo serán deprecadas proximamente
-            public static string Imagenes { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\Imagenes\";
+        }
+        public enum Entidad
+        {
+            Agenda,
+            Inventario,
+            Proyecto
         }
         public class ItemBase
         {

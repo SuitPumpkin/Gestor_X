@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DrawingBrush
-        x:Key="FondoNube"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hc="https://handyorg.github.io/handycontrol">
+    <DrawingBrush x:Key="FondoNube"
         Opacity="0.5"
         RenderOptions.CacheInvalidationThresholdMaximum="2.0"
         RenderOptions.CacheInvalidationThresholdMinimum="0.5"
@@ -16,6 +16,121 @@
         Rect="0,0,90,90" />
         </DrawingBrush.Drawing>
     </DrawingBrush>
-    
-    
+    <DrawingImage x:Key="Arrow1">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V89 H129 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M129,89z M0,0z M126.778,87.1111C120.431,62.3474 100.017,30.4444 71.5557,30.4444 62.023,30.4444 51.4782,33.999 46.8335,42.9444 44.7786,46.902 44.0409,53.3626 47.6113,56.7778 53.349,62.2661 62.5143,58.7588 68.0001,55 74.6649,50.4334 78.5647,38.2145 78.8335,30.5555 79.4078,14.1867 58.9593,8.69041 45.7779,7.44441 43.168,7.1977 28.5,5.49997 19.5,10.5">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" DashCap="Flat" LineJoin="Miter" MiterLimit="1">
+                            <Pen.DashStyle>
+                                <DashStyle Offset="0" Dashes="2 2" />
+                            </Pen.DashStyle>
+                        </Pen>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="F1 M129,89z M0,0z M17.8847,2C18.8942,2 17.0549,2.16957 16.6044,2.45455 12.7009,4.92392 9.11718,7.71362 5.35604,10.4091 2.42404,12.5103 -0.000195211,13.7637 4.44153,15.2727 10.1975,17.2283 16.1116,18.5366 22,20">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Miter" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Arrow2">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V27 H146 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M146,27z M0,0z M17.8847,2C18.8942,2 17.0549,2.16957 16.6044,2.45455 12.7009,4.92392 9.11718,7.71362 5.35604,10.4091 2.42404,12.5103 -0.000195211,13.7637 4.44153,15.2727 10.1975,17.2283 16.1116,18.5366 22,20">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Miter" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="F1 M146,27z M0,0z M144,23.1667C141.832,23.2699 130.698,24.5762 128.528,24.7222 117.63,25.4557 106.475,24.5535 95.6667,23.1667 81.5352,21.3533 67.8784,17.0651 53.9444,14.2222 42.3086,11.8483 30.8189,11.2412 19,11">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF000000" Thickness="3" StartLineCap="Round" EndLineCap="Round" DashCap="Flat" LineJoin="Miter" MiterLimit="1">
+                            <Pen.DashStyle>
+                                <DashStyle Offset="0" Dashes="2 2" />
+                            </Pen.DashStyle>
+                        </Pen>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Papel">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V389 H268 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M268,389z M0,0z M0,376.943L0,6.38895 8.375,8.66521E-05 16.75,6.38895 25.125,8.66521E-05 33.5,6.38895 41.875,8.66521E-05 50.25,6.38895 58.625,8.66521E-05 67,6.38895 75.375,8.66521E-05 83.75,6.38895 92.125,8.66521E-05 100.5,6.38895 108.875,8.66521E-05 117.25,6.38895 125.625,8.66521E-05 134,6.38895 142.375,0 150.75,6.38886 159.125,0 167.5,6.38886 175.875,0 184.25,6.38886 192.625,0 201,6.38886 209.375,0 217.75,6.38886 226.125,0 234.5,6.38886 242.875,0 251.25,6.38886 259.625,0 268,6.38886 268,376.943 268,382.611 259.625,389 251.25,382.611 242.875,389 234.5,382.611 226.125,389 217.75,382.611 209.375,389 201,382.611 192.625,389 184.25,382.611 175.875,389 167.5,382.611 159.125,389 150.75,382.611 142.375,389 134,382.611 125.625,389 117.25,382.611 108.875,389 100.5,382.611 92.125,389 83.75,382.611 75.375,389 67,382.611 58.625,389 50.25,382.611 41.875,389 33.5,382.611 25.125,389 16.75,382.611 8.375,389 3.10678E-07,382.611 0,376.943z">
+                    <GeometryDrawing.Brush>
+                        <LinearGradientBrush StartPoint="268,4.5184" EndPoint="-26.8004,362.405" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1">
+                            <GradientStop Color="#FFFFFFFF" Offset="0" />
+                            <GradientStop Color="#FFFFFBF7" Offset="1" />
+                        </LinearGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Cinta">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V131 H131 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M131,131z M0,0z M107.929,128.215L1.82931,22.1157 0.78025,19.5061 3.38981,20.5552 2.34075,17.9456 4.95031,18.9947 3.90125,16.3851 6.51081,17.4342 5.46175,14.8246 8.07131,15.8737 7.02225,13.2641 9.63181,14.3132 8.58275,11.7036 11.1923,12.7527 10.1432,10.1431 12.7528,11.1922 11.7038,8.58265 14.3133,9.6317 13.2643,7.02215 15.8738,8.0712 14.8248,5.46165 17.4343,6.5107 16.3853,3.90115 18.9948,4.9502 17.9458,2.34065 20.5553,3.3897 19.5063,0.780145 22.1158,1.8292 128.216,107.929 129.839,109.552 130.888,112.161 128.278,111.112 129.327,113.722 126.718,112.673 127.767,115.282 125.157,114.233 126.206,116.843 123.597,115.794 124.646,118.403 122.036,117.354 123.085,119.964 120.475,118.915 121.525,121.524 118.915,120.475 119.964,123.085 117.354,122.036 118.404,124.645 115.794,123.596 116.843,126.206 114.233,125.157 115.283,127.766 112.673,126.717 113.722,129.327 111.112,128.278 112.162,130.887 109.552,129.838 107.929,128.215z">
+                    <GeometryDrawing.Brush>
+                        <SolidColorBrush Color="#FFF0F0F0" Opacity="0.38" />
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <Color x:Key="PostIt">#FFFDD0</Color>
+
+    <!-- Estilo común para los bordes de entrada -->
+    <Style x:Key="InputBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+
+    <!-- Estilo común para los OutlineText -->
+    <Style x:Key="OutlineTextStyle" TargetType="hc:OutlineText">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="StrokeThickness" Value="6"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="5,-10,0,0"/>
+    </Style>
+
+    <!-- Estilo común para los campos de entrada -->
+    <Style x:Key="InputFieldStyle" TargetType="Control">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#262626"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0,3,0,0"/>
+    </Style>
+
+    <!-- Estilo para los botones -->
+    <Style x:Key="ButtonStyle" TargetType="Border">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FF0078D7" Duration="0:0:0.2"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="White" Duration="0:0:0.2"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

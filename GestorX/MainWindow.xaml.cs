@@ -3,6 +3,7 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,20 +18,68 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static GestorX.Pestañas.Clases;
 
 namespace GestorX
 {
     public partial class MainWindow : System.Windows.Window
     {
-        private bool _CambiandoTamaño = false;
+        public ObservableCollection<ItemAgenda> Agenda { get; private set; }
+        public ObservableCollection<ItemInventario> Inventario { get; private set; }
+        public ObservableCollection<ItemProyecto> Proyectos { get; private set; }
         public MainWindow()
         {
+            VigilarCambiosEnDataBase();
+            ActualizarDatosDeDataBase();
             InitializeComponent();
-            Cargar();
+            Pestaña.Content = new Inicio();
         }
-        private void Cargar()
+        private void VigilarCambiosEnDataBase()
         {
-            Contenido.Content = new Principal();
+            FileSystemWatcher watcher = new FileSystemWatcher
+            {
+                Path = System.IO.Path.GetDirectoryName(BaseDeDatos.UbicaciónDB),
+                Filter = System.IO.Path.GetFileName(BaseDeDatos.UbicaciónDB),
+                NotifyFilter = NotifyFilters.LastWrite
+            };
+            watcher.Changed += (sender, e) => { ActualizarDatosDeDataBase(); BaseDeDatos.NotificarActualizacion(); Debug.WriteLine("La base de datos ha sido actualizada jeje"); };
+            watcher.EnableRaisingEvents = true;
+        }
+        public void ActualizarDatosDeDataBase()
+        {
+            Agenda = ItemAgenda.Read();
+            Inventario = ItemInventario.Read();
+            Proyectos = ItemProyecto.Read();
+        }
+        private void CambioDePestaña(object sender, MouseButtonEventArgs e)
+        {
+            Border boton = sender as Border;
+            string Destino = boton.Name;
+            switch (Destino)
+            {
+                case "A":
+                    Pestaña.Content = new Inicio();
+                    break;
+                case "B":
+                    Pestaña.Content = new Inventario();
+                    break;
+                case "C":
+                    Pestaña.Content = new Proyectos();
+                    break;
+                case "D":
+                    Pestaña.Content = new Agenda();
+                    break;
+                case "E":
+                    Pestaña.Content = null; //catalogo
+                    break;
+                case "F":
+                    Pestaña.Content = new Herramientas(); //Herramientas
+                    break;
+                default:
+                    Pestaña.Content = null; //error
+                    break;
+            }
+            AjustarItemsPorPagina();
         }
         public void Notificación(GrowlInfo Info, string tipo)
         {
@@ -52,34 +101,41 @@ namespace GestorX
                     break;
             }
         }
-        private void MoverVentana(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
-        }
         private void CloseButton_Click(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
-        private void CambioDeTamaño(object sender, SizeChangedEventArgs e)
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_CambiandoTamaño)
+            AjustarItemsPorPagina();
+        }
+        public void AjustarItemsPorPagina()
+        {
+            double Altura = this.ActualHeight;
+            int itemsBase = 6;
+            double alturaBase = 625;
+            double alturaPorItem = 60;
+            int itemsExtra = 0;
+            if (Altura > alturaBase)
             {
-                return;
+                itemsExtra = (int)Math.Floor((Altura - alturaBase) / alturaPorItem);
             }
-            if (e.WidthChanged)
+            int totalItems = itemsBase + itemsExtra;
+
+            if (Pestaña.Content is Agenda a)
             {
-                _CambiandoTamaño = true;
-                this.Height = this.ActualWidth / 1.36;
-                _CambiandoTamaño = false;
+                a.Paginador.DataCountPerPage = totalItems;
+                a.UpdatePagination();
             }
-            else if (e.HeightChanged)
+            else if (Pestaña.Content is Inventario b)
             {
-                _CambiandoTamaño = true;
-                this.Width = this.ActualHeight * 1.36;
-                _CambiandoTamaño = false;
+                b.Paginador.DataCountPerPage = totalItems;
+                b.UpdatePagination();
+            }
+            else if (Pestaña.Content is Proyectos c)
+            {
+                c.Paginador.DataCountPerPage = totalItems;
+                c.UpdatePagination();
             }
         }
     }
