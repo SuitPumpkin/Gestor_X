@@ -80,7 +80,7 @@
                                     <Image x:Name="Preview" MinWidth="205" MinHeight="150" Stretch="Uniform" Margin="10,15,10,25"/>
                                     <componentes:TextoConBorde Texto="Foto" ColorDeBorde="#2C3E50" ColorDeRelleno="White" 
                                                        Tamaño="11" Grosor="3" HorizontalAlignment="Left" 
-                                                       VerticalAlignment="Top" Margin="10"/>
+                                                       VerticalAlignment="Top" Margin="5"/>
                                     <TextBlock Text="Haga clic para seleccionar imagen" FontSize="12" Foreground="#7F8C8D"
                                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
                                 </Grid>
@@ -96,7 +96,7 @@
                                        BorderBrush="Transparent" FontSize="13"/>
                                     <componentes:TextoConBorde Texto="Nombre" ColorDeBorde="#2C3E50" ColorDeRelleno="White" 
                                                       Tamaño="11" Grosor="3" HorizontalAlignment="Left" 
-                                                      VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                      VerticalAlignment="Top" Margin="5,0,0,0"/>
                                 </Grid>
                             </Border>
 
@@ -113,7 +113,7 @@
                                        HorizontalContentAlignment="Left" FontSize="13"/>
                                     <componentes:TextoConBorde Texto="Descripción" ColorDeBorde="#2C3E50" ColorDeRelleno="White" 
                                                       Tamaño="11" Grosor="3" HorizontalAlignment="Left" 
-                                                      VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                      VerticalAlignment="Top" Margin="5,0,0,0"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -149,7 +149,7 @@
                                                       hc:InfoElement.RegexPattern="^\d{10}$" FontSize="13"/>
                                                     <componentes:TextoConBorde Texto="Teléfono" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -161,7 +161,7 @@
                                                       InputScope="EmailSmtpAddress" FontSize="13"/>
                                                     <componentes:TextoConBorde Texto="Correo" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -172,7 +172,7 @@
                                                       BorderBrush="Transparent" FontSize="13"/>
                                                     <componentes:TextoConBorde Texto="Página Web" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -183,7 +183,7 @@
                                                       BorderBrush="Transparent" FontSize="13"/>
                                                     <componentes:TextoConBorde Texto="Ubicación" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -200,7 +200,7 @@
                                                     </hc:ComboBox>
                                                     <componentes:TextoConBorde Texto="Tipo de Contacto" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
                                         </hc:UniformSpacingPanel>
@@ -216,7 +216,7 @@
                                                       BorderThickness="0" Height="40"/>
                                                     <componentes:TextoConBorde Texto="Cantidad" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -227,7 +227,7 @@
                                                       BorderBrush="Transparent" FontSize="13"/>
                                                     <componentes:TextoConBorde Texto="Unidad de Medida" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -247,7 +247,7 @@
                                                       Margin="5,0,0,0"/>
                                                     <componentes:TextoConBorde Grid.ColumnSpan="2" Texto="Costo" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -264,7 +264,7 @@
                                                     </hc:ComboBox>
                                                     <componentes:TextoConBorde Texto="Proveedor" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
                                         </hc:UniformSpacingPanel>
@@ -284,7 +284,7 @@
                                                     </hc:ComboBox>
                                                     <componentes:TextoConBorde Texto="Cliente" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -311,7 +311,7 @@
                                                           BorderBrush="Transparent" Padding="5,8" FontSize="13"/>
                                                         <componentes:TextoConBorde Grid.ColumnSpan="2" Texto="Pagado" ColorDeBorde="#2C3E50" 
                                                                           ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                          HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                          HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                     </Grid>
                                                 </Border>
 
@@ -331,7 +331,7 @@
                                                           BorderBrush="Transparent" Padding="5,8" FontSize="13"/>
                                                         <componentes:TextoConBorde Grid.ColumnSpan="2" Texto="Total" ColorDeBorde="#2C3E50" 
                                                                           ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                          HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                          HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                     </Grid>
                                                 </Border>
                                             </Grid>
@@ -343,7 +343,7 @@
                                                          VerticalAlignment="Center" BorderThickness="0" FontSize="13"/>
                                                     <componentes:TextoConBorde Texto="Fecha de Creación" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
 
@@ -379,7 +379,7 @@
                                                     </hc:StepBar>
                                                     <componentes:TextoConBorde Texto="Progreso" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
-                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                                                                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,-10,0,0"/>
                                                 </Grid>
                                             </Border>
                                         </hc:UniformSpacingPanel>

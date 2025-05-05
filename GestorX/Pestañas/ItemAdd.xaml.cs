@@ -724,24 +724,28 @@ namespace GestorX.Pestañas
         private void Cancelar(object sender, RoutedEventArgs e)
         {
             //TODO: Verificar si no se han hecho cambios y en caso de no haber cambios simplemente salir
-            MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show("¿Salir sin guardar?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            if (respuesta == MessageBoxResult.Yes)
+            if (HayCambios())
             {
-                switch (Seleccionado)
+                MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show("¿Salir sin guardar?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                if (respuesta == MessageBoxResult.No)
                 {
-                    case Entidad.Agenda:
-                        _ventana.Pestaña.Content = new Agenda();
-                        break;
-                    case Entidad.Inventario:
-                        _ventana.Pestaña.Content = new Inventario();
-                        break;
-                    case Entidad.Proyecto:
-                        _ventana.Pestaña.Content = new Proyectos();
-                        break;
-                    default:
-                        _ventana.Pestaña.Content = new Inicio();
-                        break;
+                    return;
                 }
+            }
+            switch (Seleccionado)
+            {
+                case Entidad.Agenda:
+                    _ventana.Pestaña.Content = new Agenda();
+                    break;
+                case Entidad.Inventario:
+                    _ventana.Pestaña.Content = new Inventario();
+                    break;
+                case Entidad.Proyecto:
+                    _ventana.Pestaña.Content = new Proyectos();
+                    break;
+                default:
+                    _ventana.Pestaña.Content = new Inicio();
+                    break;
             }
         }
         private void Remover(object sender, RoutedEventArgs e)
@@ -837,6 +841,40 @@ namespace GestorX.Pestañas
             var enviado = sender as StepBarItem;
             Pasos.StepIndex = enviado.Index - 1;
 
+        }
+        private bool HayCambios()
+        {
+            if (ItemActual.ID == string.Empty) { return false; }
+            if (ItemActual is ItemAgenda agenda)
+            {
+                return agenda.Nombre != Nombre.Text ||
+                       agenda.Descripción != Descripción.Text ||
+                       agenda.Telefono != Telefono.Text ||
+                       agenda.Correo != Correo.Text ||
+                       agenda.PaginaWeb != PaginaWeb.Text ||
+                       agenda.UbicaciónMaps != Ubicación.Text ||
+                       agenda.TipoDeContacto != (TipoDeContacto.SelectedItem as ItemComboBox)?.Nombre;
+            }
+            else if (ItemActual is ItemInventario inventario)
+            {
+                return inventario.Nombre != Nombre.Text ||
+                       inventario.Descripción != Descripción.Text ||
+                       inventario.Cantidad.ToString() != Cantidad.Text ||
+                       inventario.Unidad != Unidad.Text ||
+                       inventario.Precio.ToString() != Costo.Text ||
+                       inventario.Vendedor != (Proveedor.SelectedItem as ItemComboBox)?.ID;
+            }
+            else if (ItemActual is ItemProyecto proyecto)
+            {
+                return proyecto.Nombre != Nombre.Text ||
+                       proyecto.Descripción != Descripción.Text ||
+                       proyecto.Precio.ToString() != Total.Text ||
+                       proyecto.Pagado.ToString() != Pagado.Text ||
+                       proyecto.FechaCreación != Fecha.Text ||
+                       proyecto.Cliente != (Cliente.SelectedItem as ItemComboBox)?.ID ||
+                       proyecto.Progreso != Pasos.StepIndex * 25;
+            }
+            return false;
         }
     }
 }
