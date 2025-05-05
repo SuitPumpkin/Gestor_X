@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GestorX.Properties;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -124,8 +125,7 @@ namespace GestorX.Pestañas
         public class Ubicaciones
         {
             //TODO: Mover todas estas rutas a los settings del usuario (no del sistema) para que el usuario lo pueda modificar mediante los ajustes
-            public static string Pendientes { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\pendientes.txt";
-            public static string CarpetaProyectos { get; } = @"\\SuitPumpkin\Trabajo\Bases de Datos\Proyectos";
+            public static string CarpetaProyectos { get; } = Settings.Default.UbicaciónProyectos;
         }
         public enum Entidad
         {
@@ -309,7 +309,6 @@ namespace GestorX.Pestañas
             /// <param name="Item"></param>
             public static void Create(ItemProyecto Item)
             {
-                //TODO
                 BaseDeDatos.ComandoDeEscritura(
                     "INSERT INTO Proyecto (Imagen, Descripción, Nombre, Progreso, Precio, Pagado, FechaCreación, Cliente) VALUES (@Imagen, @Descripción, @Nombre, @Progreso, @Precio, @Pagado, @FechaCreación, @Cliente)",
                     new SQLiteParameter("@Imagen", Item.Imagen),
@@ -321,6 +320,10 @@ namespace GestorX.Pestañas
                     new SQLiteParameter("@FechaCreación", Item.FechaCreación),
                     new SQLiteParameter("@Cliente", Item.Cliente)
                     );
+                Directory.CreateDirectory(Item.Carpeta);
+                Directory.CreateDirectory(Item.CarpetaEditables);
+                Directory.CreateDirectory(Item.CarpetaMockups);
+                Directory.CreateDirectory(Item.CarpetaResultados);
             }
             /// <summary>
             /// Lee todos los Items de los Proyectos
@@ -371,6 +374,11 @@ namespace GestorX.Pestañas
             public static void Delete(string ID)
             {
                 BaseDeDatos.ComandoDeEscritura("DELETE FROM Proyecto WHERE ID = @ID", new SQLiteParameter("@ID", ID));
+                //borrar la carpeta del proyecto
+                if (Directory.Exists($"{Ubicaciones.CarpetaProyectos}/{ID}"))
+                {
+                    Directory.Delete($"{Ubicaciones.CarpetaProyectos}/{ID}", true);
+                }
             }
         }
     }

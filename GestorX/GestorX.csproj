@@ -80,14 +80,14 @@
     <Compile Include="Componentes\TextoConBorde.xaml.cs">
       <DependentUpon>TextoConBorde.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pestañas\Ajustes.xaml.cs">
+      <DependentUpon>Ajustes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pestañas\Herramientas.xaml.cs">
       <DependentUpon>Herramientas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pestañas\ItemAdd.xaml.cs">
       <DependentUpon>ItemAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ventanas\TextInputDialog.xaml.cs">
-      <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Componentes\TextoConBorde.xaml">
       <SubType>Designer</SubType>
@@ -113,6 +113,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pestañas\Ajustes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pestañas\Herramientas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,10 +134,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pestañas\Proyectos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Ventanas\TextInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

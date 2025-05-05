@@ -12,7 +12,7 @@
         Height="625" Width="850"
         MinHeight="625" MinWidth="850"
         WindowStartupLocation="CenterScreen" Background="#FF76B5C5"
-        SizeChanged="Window_SizeChanged">
+        SizeChanged="Window_SizeChanged" StateChanged="CambioDeEstadoDeVentana">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -21,85 +21,58 @@
         <!--Barra lateral-->
         <Grid Background="White">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <StackPanel.Resources>
-                    <Style TargetType="Border" x:Key="BotónDePestañas">
-                        <Setter Property="Height" Value="70"/>
-                        <Setter Property="Width" Value="100"/>
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="BorderThickness" Value="10,2,10,2"/>
-                        <Setter Property="CornerRadius" Value="10"/>
-                        <Style.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation To="#eeeee4" Duration="0:0:0.25" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
-                                            <ColorAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut"/>
-                                            </ColorAnimation.EasingFunction>
-                                        </ColorAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation To="White" Duration="0:0:0.25" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
-                                            <ColorAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseIn"/>
-                                            </ColorAnimation.EasingFunction>
-                                        </ColorAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Resources>
                 <Border Style="{StaticResource BotónDePestañas}" x:Name="A" MouseLeftButtonDown="CambioDePestaña">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <fa:IconBlock Icon="Home" FontSize="20" Foreground="#21130d"/>
-                        <TextBlock Text="Inicio" FontWeight="Bold" FontSize="14" Foreground="#21130d"/>
+                        <TextBlock Text="Inicio" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource BotónDePestañas}" x:Name="B" MouseLeftButtonDown="CambioDePestaña">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <fa:IconBlock Icon="BoxesAlt" FontSize="20" Foreground="#21130d"/>
-                        <TextBlock Text="Inventario" FontWeight="Bold" FontSize="14" Foreground="#21130d"/>
+                        <TextBlock Text="Inventario" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource BotónDePestañas}" x:Name="C" MouseLeftButtonDown="CambioDePestaña">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <fa:IconBlock Icon="ProjectDiagram" FontSize="20" Foreground="#21130d"/>
-                        <TextBlock Text="Proyectos" FontWeight="Bold" FontSize="14" Foreground="#21130d"/>
+                        <TextBlock Text="Proyectos" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource BotónDePestañas}" x:Name="D" MouseLeftButtonDown="CambioDePestaña">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <fa:IconBlock Icon="AddressBook" IconFont="Solid" FontSize="20" Foreground="#21130d"/>
-                        <TextBlock Text="Agenda" FontWeight="Bold" FontSize="14" Foreground="#21130d"/>
+                        <TextBlock Text="Agenda" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource BotónDePestañas}" x:Name="E" MouseLeftButtonDown="CambioDePestaña">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <fa:IconBlock Icon="Star" IconFont="Solid" FontSize="20" Foreground="#21130d"/>
-                        <TextBlock Text="Catalogo" FontWeight="Bold" FontSize="14" Foreground="#21130d"/>
+                        <TextBlock Text="Catalogo" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource BotónDePestañas}" x:Name="F" MouseLeftButtonDown="CambioDePestaña">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <fa:IconBlock Icon="Wrench" IconFont="Solid" FontSize="20" Foreground="#21130d"/>
-                        <TextBlock Text="Herramientas" FontWeight="Bold" FontSize="14" Foreground="#21130d"/>
+                        <TextBlock Text="Herramientas" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
             <!--Versión-->
-            <StackPanel Opacity="0.6" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,5">
-                <StackPanel.RenderTransform>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.75" />
-                </StackPanel.RenderTransform>
-                <TextBlock Text="Versión" FontWeight="ExtraBlack" HorizontalAlignment="Center"/>
-                <hc:Shield Subject="Alpha" Status="1.0" Color="#FF52BD22"/>
+            <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Bottom"  Orientation="Vertical">
+                <Border Style="{StaticResource BotónDePestañas}" x:Name="Z" MouseLeftButtonDown="CambioDePestaña">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <fa:IconBlock Opacity="0.5" Icon="Gear" IconFont="Solid" FontSize="20" Foreground="#21130d"/>
+                        <TextBlock Opacity="0.5" Text="Configuración" FontWeight="Bold" FontSize="12" Foreground="#21130d"/>
+                    </StackPanel>
+                </Border>
+                <StackPanel Opacity="0.6" Orientation="Vertical" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,5" HorizontalAlignment="Center">
+                    <StackPanel.RenderTransform>
+                        <ScaleTransform ScaleX="0.9" ScaleY="0.75" />
+                    </StackPanel.RenderTransform>
+                    <TextBlock Text="Versión" FontWeight="ExtraBlack" HorizontalAlignment="Center"/>
+                    <hc:Shield Subject="Alpha" Status="1.0" Color="#FF52BD22"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
         <!--Contenido Principal-->

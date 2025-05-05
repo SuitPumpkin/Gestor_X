@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="GestorX.Pestañas.Ajustes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:local="clr-namespace:GestorX.Pestañas"
+             xmlns:componentes="clr-namespace:GestorX.Componentes"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="630">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <!--Titulo-->
+                <StackPanel Orientation="Horizontal" Height="50" Margin="10,5,5,5">
+                    <fa:IconBlock Icon="WindowMinimize" Foreground="Black" IconFont="Solid" VerticalAlignment="Center" Margin="0,0,-10,10" FontSize="30" RenderTransformOrigin="0.5,0.5">
+                        <fa:IconBlock.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="90"/>
+                            </TransformGroup>
+                        </fa:IconBlock.RenderTransform>
+                    </fa:IconBlock>
+                    <componentes:TextoConBorde Texto="Configuración" Tamaño="30" ColorDeBorde="Black" ColorDeRelleno="White" Grosor="5" VerticalAlignment="Center"/>
+                    <fa:IconBlock Icon="Gear" Foreground="Black" IconFont="Solid" VerticalAlignment="Center" FontSize="20" Margin="10,0,0,5"/>
+                </StackPanel>
+                <!--Propiedades-->
+                <Grid Margin="10,0,10,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Background="White" BorderBrush="DimGray" BorderThickness="2" CornerRadius="4" Margin="0,0,5,0" MouseLeftButtonDown="CambiarUbicación" Cursor="Hand">
+                        <Grid>
+                            <hc:TextBox x:Name="UbicaciónDeProyectos" IsHitTestVisible="False" Style="{StaticResource InputFieldStyle}" BorderBrush="Transparent"/>
+                            <componentes:TextoConBorde Texto="Ubicación de Proyectos" ColorDeBorde="DimGray" ColorDeRelleno="White" Tamaño="11" Grosor="3"/>
+                        </Grid>
+                    </Border>
+                    <componentes:TextoConBorde Texto="No cambiar!" ColorDeBorde="Red" PosiciónHorizontal="Right" ColorDeRelleno="White" Tamaño="15" Grosor="3" Margin="0,0,10,0"/>
+                    <componentes:Botón1 Tag="1" Icono="Save" Texto="Guardar" MouseLeftButtonDown="Guardar" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

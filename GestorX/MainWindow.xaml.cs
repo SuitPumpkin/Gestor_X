@@ -75,6 +75,9 @@ namespace GestorX
                 case "F":
                     Pestaña.Content = new Herramientas(); //Herramientas
                     break;
+                case "Z":
+                    Pestaña.Content = new Ajustes(); //Herramientas
+                    break;
                 default:
                     Pestaña.Content = null; //error
                     break;
@@ -121,7 +124,6 @@ namespace GestorX
                 itemsExtra = (int)Math.Floor((Altura - alturaBase) / alturaPorItem);
             }
             int totalItems = itemsBase + itemsExtra;
-
             if (Pestaña.Content is Agenda a)
             {
                 a.Paginador.DataCountPerPage = totalItems;
@@ -137,6 +139,11 @@ namespace GestorX
                 c.Paginador.DataCountPerPage = totalItems;
                 c.UpdatePagination();
             }
+        }
+        private async void CambioDeEstadoDeVentana(object sender, EventArgs e)
+        {
+            await Task.Delay(200);
+            AjustarItemsPorPagina();
         }
     }
 }

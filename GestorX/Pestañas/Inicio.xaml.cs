@@ -1,5 +1,4 @@
-﻿using GestorX.Ventanas;
-using HandyControl.Tools.Extension;
+﻿using HandyControl.Tools.Extension;
 using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;

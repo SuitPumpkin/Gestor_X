@@ -88,7 +88,40 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="CornerRadius" Value="4"/>
     </Style>
-
+    <!-- Estilo de botones de pestañas-->
+    <Style TargetType="Border" x:Key="BotónDePestañas">
+        <Setter Property="Height" Value="70"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderThickness" Value="10,2,10,2"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation To="#eeeee4" Duration="0:0:0.25" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                            <ColorAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </ColorAnimation.EasingFunction>
+                        </ColorAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation To="White" Duration="0:0:0.25" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                            <ColorAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseIn"/>
+                            </ColorAnimation.EasingFunction>
+                        </ColorAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
     <!-- Estilo común para los OutlineText -->
     <Style x:Key="OutlineTextStyle" TargetType="hc:OutlineText">
         <Setter Property="FontWeight" Value="Bold"/>
@@ -96,7 +129,6 @@
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Margin" Value="5,-10,0,0"/>
     </Style>
-
     <!-- Estilo común para los campos de entrada -->
     <Style x:Key="InputFieldStyle" TargetType="Control">
         <Setter Property="Background" Value="Transparent"/>
@@ -107,7 +139,6 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0,3,0,0"/>
     </Style>
-
     <!-- Estilo para los botones -->
     <Style x:Key="ButtonStyle" TargetType="Border">
         <Setter Property="Height" Value="30"/>

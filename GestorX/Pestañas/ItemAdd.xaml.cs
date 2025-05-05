@@ -1,4 +1,5 @@
-﻿using HandyControl.Controls;
+﻿using GestorX.Componentes;
+using HandyControl.Controls;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,14 @@ namespace GestorX.Pestañas
         /// Entidad de Item para agregar
         /// </summary>
         public Entidad Seleccionado { get; set; } = Entidad.Agenda;
+        public static readonly DependencyProperty IconTypeProperty =
+            DependencyProperty.Register(nameof(Icono), typeof(string), typeof(ItemAdd),
+                new FrameworkPropertyMetadata("None", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public string Icono
+        {
+            get => (string)GetValue(IconTypeProperty);
+            set => SetValue(IconTypeProperty, value);
+        }
 
         /// <summary>
         /// Almacena la información actual del item en caso de ser una edición y no una creación
@@ -71,6 +80,7 @@ namespace GestorX.Pestañas
                 PaginaWeb.Text = AgendaActual.PaginaWeb;
                 Descripción.Text = AgendaActual.Descripción;
                 Nombre.Text = AgendaActual.Nombre;
+                Titulo.Text = AgendaActual.Nombre;
                 Ubicación.Text = AgendaActual.UbicaciónMaps;
                 foreach (ItemComboBox item in TipoDeContacto.Items)
                 {
@@ -82,7 +92,6 @@ namespace GestorX.Pestañas
                 }
                 if (AgendaActual.ID != string.Empty)
                 {
-                    IconoPrevio.Visibility = Visibility.Collapsed;
                     if (AgendaActual.Imagen == null)
                     {
                         BitmapImage fallbackBitmap = new BitmapImage();
@@ -128,7 +137,6 @@ namespace GestorX.Pestañas
                 }
                 if (InventarioActual.ID != string.Empty)
                 {
-                    IconoPrevio.Visibility = Visibility.Collapsed;
                     if (InventarioActual.Imagen == null)
                     {
                         BitmapImage fallbackBitmap = new BitmapImage();
@@ -175,7 +183,6 @@ namespace GestorX.Pestañas
                 }
                 if (ItemActual.ID != string.Empty)
                 {
-                    IconoPrevio.Visibility = Visibility.Collapsed;
                     if (ItemActual.Imagen == null)
                     {
                         BitmapImage fallbackBitmap = new BitmapImage();
@@ -209,14 +216,17 @@ namespace GestorX.Pestañas
             {
                 case Entidad.Agenda:
                     if (!(ItemActual is ItemAgenda)) { ItemActual = new ItemAgenda(); }
+                    if (ItemActual.ID == "0" || ItemActual.ID == null) { Icono = "User"; }
                     ControlesAGENDA.Visibility = Visibility.Visible;
                     break;
                 case Entidad.Inventario:
                     if (!(ItemActual is ItemInventario)) { ItemActual = new ItemInventario(); }
+                    if (ItemActual.ID == "0" || ItemActual.ID == null) { Icono = "Box"; }
                     ControlesINVENTARIO.Visibility = Visibility.Visible;
                     break;
                 case Entidad.Proyecto:
                     if (!(ItemActual is ItemProyecto)) { ItemActual = new ItemProyecto(); }
+                    if (ItemActual.ID == "0" || ItemActual.ID == null) { Icono = "Scroll"; }
                     ControlesPROYECTO.Visibility = Visibility.Visible;
                     break;
                 default:
@@ -286,7 +296,7 @@ namespace GestorX.Pestañas
             TipoDeContacto.ItemsSource = TiposDeContactos.OrderBy(x => x.Nombre);
             TipoDeContacto.SelectedIndex = 0;
         }
-        private void Guardar(object sender, MouseButtonEventArgs e)
+        private void Guardar(object sender, RoutedEventArgs e)
         {
             //TODO: Verificar que tenga unos campos minimos necesarios antes de guardar
             if (ItemActual is ItemAgenda)
@@ -500,7 +510,7 @@ namespace GestorX.Pestañas
                 _ventana.Pestaña.Content = new Proyectos();
             }
         }
-        private void Duplicar(object sender, MouseButtonEventArgs e)
+        private void Duplicar(object sender, RoutedEventArgs e)
         {
             //TODO: Verificar que tenga unos campos minimos necesarios antes de guardar
             if (ItemActual is ItemAgenda)
@@ -711,7 +721,7 @@ namespace GestorX.Pestañas
                 }
             }
         }
-        private void Cancelar(object sender, MouseButtonEventArgs e)
+        private void Cancelar(object sender, RoutedEventArgs e)
         {
             //TODO: Verificar si no se han hecho cambios y en caso de no haber cambios simplemente salir
             MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show("¿Salir sin guardar?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
@@ -734,7 +744,7 @@ namespace GestorX.Pestañas
                 }
             }
         }
-        private void Remover(object sender, MouseButtonEventArgs e)
+        private void Remover(object sender, RoutedEventArgs e)
         {
             MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show($"¿Seguro de querer eliminar toda la información relacionada a {ItemActual.Nombre}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (respuesta == MessageBoxResult.Yes)
