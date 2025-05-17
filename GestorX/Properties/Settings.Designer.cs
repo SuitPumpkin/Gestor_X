@@ -34,5 +34,14 @@ namespace GestorX.Properties {
                 this["UbicaciónProyectos"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//SuitPumpkin/Trabajo/Bases de Datos/GestorX.db")]
+        public string UbicaciónDB {
+            get {
+                return ((string)(this["UbicaciónDB"]));
+            }
+        }
     }
 }

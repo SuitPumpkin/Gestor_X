@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static GestorX.Pestañas.Clases;
+using Path = System.IO.Path;
 using Window = System.Windows.Window;
 
 namespace GestorX.Pestañas
@@ -41,6 +44,30 @@ namespace GestorX.Pestañas
         public static readonly DependencyProperty IconTypeProperty =
             DependencyProperty.Register(nameof(Icono), typeof(string), typeof(ItemAdd),
                 new FrameworkPropertyMetadata("None", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        // Clases para manejar los archivos editables y resultados
+        public class ArchivoEditable
+        {
+            public string Ruta { get; set; }
+            public string NombreArchivo { get; set; }
+            public string TipoArchivo { get; set; }
+            public ImageSource IconoSource { get; set; }
+            public TipoEditable Tipo { get; set; }
+            public string PresetIllustrator { get; set; } = "Ninguno";
+        }
+        public class ArchivoResultado
+        {
+            public string Ruta { get; set; }
+            public string Nombre { get; set; }
+            public string Tipo { get; set; }
+            public ImageSource ImagenSource { get; set; }
+        }
+        public enum TipoEditable
+        {
+            Illustrator,
+            Photoshop,
+            Otro
+        }
+
         public string Icono
         {
             get => (string)GetValue(IconTypeProperty);
@@ -208,6 +235,24 @@ namespace GestorX.Pestañas
                     }
                     Duplicador.Visibility = Visibility.Visible;
                     Borrador.Visibility = Visibility.Visible;
+                    try
+                    {
+                        CargarResultados();
+                        SecciónResultados.Visibility = Visibility.Visible;
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("Error al cargar los resultados");
+                    }
+                    try
+                    {
+                        CargarEditables();
+                        SecciónEditables.Visibility = Visibility.Visible;
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("Error al cargar los editables");
+                    }
                 }
             }
 
@@ -250,7 +295,7 @@ namespace GestorX.Pestañas
                         Descripción = p.Descripción.Replace("\\n", Environment.NewLine)
                     });
                 }
-                else if (p.TipoDeContacto == "Cliente")
+                else if (p.TipoDeContacto == "Cliente" || p.TipoDeContacto == "Trabajador")
                 {
                     Clientes.Add(new ItemComboBox
                     {
@@ -298,7 +343,7 @@ namespace GestorX.Pestañas
         }
         private void Guardar(object sender, RoutedEventArgs e)
         {
-            //TODO: Verificar que tenga unos campos minimos necesarios antes de guardar
+            VerificarCamposObligatorios();
             if (ItemActual is ItemAgenda)
             {
                 //FASE 1: Preparar la información del objeto
@@ -512,7 +557,7 @@ namespace GestorX.Pestañas
         }
         private void Duplicar(object sender, RoutedEventArgs e)
         {
-            //TODO: Verificar que tenga unos campos minimos necesarios antes de guardar
+            VerificarCamposObligatorios();
             if (ItemActual is ItemAgenda)
             {
                 MessageBoxResult respuesta = HandyControl.Controls.MessageBox.Show($"¿Guardar {Nombre.Text} como copia de {ItemActual.Nombre}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
@@ -875,6 +920,307 @@ namespace GestorX.Pestañas
                        proyecto.Progreso != Pasos.StepIndex * 25;
             }
             return false;
+        }
+        private void CargarEditables()
+        {
+            try
+            {
+                var carpetaProyecto = Environment.CurrentDirectory;
+                var listaEditables = new ObservableCollection<ArchivoEditable>();
+
+                if (ItemActual is ItemProyecto proyecto)
+                {
+                    // Crear carpeta del proyecto si no existe
+                    var carpetaEditables = proyecto.CarpetaEditables;
+
+                    if (!Directory.Exists(carpetaEditables))
+                    {
+                        Directory.CreateDirectory(carpetaEditables);
+                    }
+
+                    // Obtener archivos en la carpeta
+                    var archivos = Directory.GetFiles(carpetaEditables);
+
+                    foreach (var archivo in archivos)
+                    {
+                        var info = new FileInfo(archivo);
+
+                        // Excluir directorios
+                        if (info.Attributes.HasFlag(FileAttributes.Directory))
+                            continue;
+
+                        var editable = new ArchivoEditable
+                        {
+                            Ruta = archivo,
+                            NombreArchivo = info.Name,
+                            TipoArchivo = info.Extension.ToLower()
+                        };
+
+                        // Determinar el tipo de archivo y el icono
+                        switch (info.Extension.ToLower())
+                        {
+                            case ".ai":
+                                editable.Tipo = TipoEditable.Illustrator;
+                                editable.IconoSource = CargarIcono("illustrator.png");
+                                break;
+                            case ".psd":
+                                editable.Tipo = TipoEditable.Photoshop;
+                                editable.IconoSource = CargarIcono("photoshop.png");
+                                break;
+                            default:
+                                editable.Tipo = TipoEditable.Otro;
+                                editable.IconoSource = CargarIcono("generic.png");
+                                break;
+                        }
+
+                        listaEditables.Add(editable);
+                    }
+
+                    EditablesLista.ItemsSource = listaEditables;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al cargar los editables: {ex.Message}");
+            }
+        }
+        private void CargarResultados()
+        {
+            try
+            {
+                var carpetaProyecto = Environment.CurrentDirectory;
+                var listaResultados = new ObservableCollection<ArchivoResultado>();
+
+                if (ItemActual is ItemProyecto proyecto)
+                {
+                    var archivos = Directory.GetFiles(proyecto.CarpetaMockups);
+                    foreach (var archivo in archivos)
+                    {
+                        var info = new FileInfo(archivo);
+                        // Solo considerar archivos de imagen
+                        if (!esArchivoDeImagen(info.Extension))
+                            continue;
+                        var resultado = new ArchivoResultado
+                        {
+                            Ruta = archivo,
+                            Nombre = info.Name,
+                            Tipo = "Mockup: "
+                        };
+                        // Cargar imagen
+                        try
+                        {
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.UriSource = new Uri(archivo);
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.EndInit();
+                            resultado.ImagenSource = bitmap;
+                        }
+                        catch
+                        {
+                            // Si falla la carga de la imagen, usar imagen por defecto
+                            BitmapImage fallbackBitmap = new BitmapImage();
+                            fallbackBitmap.BeginInit();
+                            fallbackBitmap.UriSource = new Uri("pack://application:,,,/404.png", UriKind.Absolute);
+                            fallbackBitmap.EndInit();
+                            resultado.ImagenSource = fallbackBitmap;
+                        }
+                        listaResultados.Add(resultado);
+                    }
+
+                    archivos = Directory.GetFiles(proyecto.CarpetaResultados);
+                    foreach (var archivo in archivos)
+                    {
+                        var info = new FileInfo(archivo);
+                        // Solo considerar archivos de imagen
+                        if (!esArchivoDeImagen(info.Extension))
+                            continue;
+                        var resultado = new ArchivoResultado
+                        {
+                            Ruta = archivo,
+                            Nombre = info.Name,
+                            Tipo = "Resultado: "
+                        };
+                        // Cargar imagen
+                        try
+                        {
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.UriSource = new Uri(archivo);
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.EndInit();
+                            resultado.ImagenSource = bitmap;
+                        }
+                        catch
+                        {
+                            // Si falla la carga de la imagen, usar imagen por defecto
+                            BitmapImage fallbackBitmap = new BitmapImage();
+                            fallbackBitmap.BeginInit();
+                            fallbackBitmap.UriSource = new Uri("pack://application:,,,/404.png", UriKind.Absolute);
+                            fallbackBitmap.EndInit();
+                            resultado.ImagenSource = fallbackBitmap;
+                        }
+                        listaResultados.Add(resultado);
+                    }
+
+                    ResultadosCarrusel.ItemsSource = listaResultados;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al cargar los resultados: {ex.Message}");
+            }
+        }
+        private bool esArchivoDeImagen(string extension)
+        {
+            string[] formatosImagen = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff" };
+            return formatosImagen.Contains(extension.ToLower());
+        }
+        private ImageSource CargarIcono(string nombreArchivo)
+        {
+            try
+            {
+                var uri = new Uri($"pack://application:,,,/{nombreArchivo}", UriKind.Absolute);
+                BitmapImage icon = new BitmapImage();
+                icon.BeginInit();
+                icon.UriSource = uri;
+                icon.CacheOption = BitmapCacheOption.OnLoad;
+                icon.EndInit();
+                return icon;
+            }
+            catch
+            {
+                // Si falla, usar un icono genérico
+                BitmapImage fallbackIcon = new BitmapImage();
+                fallbackIcon.BeginInit();
+                fallbackIcon.UriSource = new Uri("pack://application:,,,/404.png", UriKind.Absolute);
+                fallbackIcon.EndInit();
+                return fallbackIcon;
+            }
+        }
+        private void AgregarEditable(object sender, RoutedEventArgs e)
+        {
+            //TODO: abrir selección de presets
+
+        }
+        private bool VerificarCamposObligatorios()
+        {
+            string mensaje = "";
+            bool camposValidos = true;
+
+            // Verificar campos generales que siempre son requeridos
+            if (string.IsNullOrWhiteSpace(Nombre.Text))
+            {
+                mensaje += "- El nombre es obligatorio.\n";
+                camposValidos = false;
+            }
+
+            // Verificar campos específicos según el tipo de entidad
+            if (ItemActual is ItemAgenda)
+            {
+                // Verificar que el teléfono sea numérico
+                if (!string.IsNullOrEmpty(Telefono.Text) && !decimal.TryParse(Telefono.Text, out _))
+                {
+                    mensaje += "- El teléfono debe ser un número válido.\n";
+                    camposValidos = false;
+                }
+
+                // Verificar formato correcto de correo electrónico si no está vacío
+                if (!string.IsNullOrEmpty(Correo.Text) && Correo.Text != "N/A")
+                {
+                    try
+                    {
+                        var addr = new System.Net.Mail.MailAddress(Correo.Text);
+                        if (addr.Address != Correo.Text)
+                        {
+                            mensaje += "- El correo electrónico no tiene un formato válido.\n";
+                            camposValidos = false;
+                        }
+                    }
+                    catch
+                    {
+                        mensaje += "- El correo electrónico no tiene un formato válido.\n";
+                        camposValidos = false;
+                    }
+                }
+
+                // Verificar que se ha seleccionado un tipo de contacto
+                if (TipoDeContacto.SelectedItem == null)
+                {
+                    mensaje += "- Debe seleccionar un tipo de contacto.\n";
+                    camposValidos = false;
+                }
+            }
+            else if (ItemActual is ItemInventario)
+            {
+                // Verificar campos numéricos
+                if (!decimal.TryParse(Cantidad.Text, out _))
+                {
+                    mensaje += "- La cantidad debe ser un número válido.\n";
+                    camposValidos = false;
+                }
+
+                if (!decimal.TryParse(Costo.Text, out _))
+                {
+                    mensaje += "- El costo debe ser un número válido.\n";
+                    camposValidos = false;
+                }
+
+                // Verificar unidad
+                if (string.IsNullOrWhiteSpace(Unidad.Text))
+                {
+                    mensaje += "- La unidad es obligatoria.\n";
+                    camposValidos = false;
+                }
+
+                // Verificar que se ha seleccionado un proveedor
+                if (Proveedor.SelectedItem == null)
+                {
+                    mensaje += "- Debe seleccionar un proveedor.\n";
+                    camposValidos = false;
+                }
+            }
+            else if (ItemActual is ItemProyecto)
+            {
+                // Verificar campos numéricos
+                if (!decimal.TryParse(Total.Text, out _))
+                {
+                    mensaje += "- El precio total debe ser un número válido.\n";
+                    camposValidos = false;
+                }
+
+                if (!decimal.TryParse(Pagado.Text, out _))
+                {
+                    mensaje += "- El monto pagado debe ser un número válido.\n";
+                    camposValidos = false;
+                }
+
+                // Verificar fecha
+                if (string.IsNullOrEmpty(Fecha.Text))
+                {
+                    mensaje += "- La fecha es obligatoria.\n";
+                    camposValidos = false;
+                }
+
+                // Verificar que se ha seleccionado un cliente
+                if (Cliente.SelectedItem == null)
+                {
+                    mensaje += "- Debe seleccionar un cliente.\n";
+                    camposValidos = false;
+                }
+            }
+
+            // Mostrar mensaje de error si hay campos inválidos
+            if (!camposValidos)
+            {
+                HandyControl.Controls.MessageBox.Show(
+                    $"Por favor corrija los siguientes errores:\n\n{mensaje}",
+                    "Campos inválidos",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+
+            return camposValidos;
         }
     }
 }

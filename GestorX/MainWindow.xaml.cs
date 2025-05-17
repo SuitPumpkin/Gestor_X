@@ -1,4 +1,5 @@
 ﻿using GestorX.Pestañas;
+using GestorX.Properties;
 using HandyControl.Controls;
 using HandyControl.Data;
 using System;
@@ -38,8 +39,8 @@ namespace GestorX
         {
             FileSystemWatcher watcher = new FileSystemWatcher
             {
-                Path = System.IO.Path.GetDirectoryName(BaseDeDatos.UbicaciónDB),
-                Filter = System.IO.Path.GetFileName(BaseDeDatos.UbicaciónDB),
+                Path = System.IO.Path.GetDirectoryName(Settings.Default.UbicaciónDB),
+                Filter = System.IO.Path.GetFileName(Settings.Default.UbicaciónDB),
                 NotifyFilter = NotifyFilters.LastWrite
             };
             watcher.Changed += (sender, e) => { ActualizarDatosDeDataBase(); BaseDeDatos.NotificarActualizacion(); Debug.WriteLine("La base de datos ha sido actualizada jeje"); };
@@ -142,7 +143,7 @@ namespace GestorX
         }
         private async void CambioDeEstadoDeVentana(object sender, EventArgs e)
         {
-            await Task.Delay(200);
+            await Task.Delay(300);
             AjustarItemsPorPagina();
         }
     }

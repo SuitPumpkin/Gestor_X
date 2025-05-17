@@ -93,7 +93,7 @@
                                 </Border.Effect>
                                 <Grid>
                                     <hc:TextBox x:Name="Nombre" hc:InfoElement.Placeholder="Ingrese nombre completo" 
-                                       BorderBrush="Transparent" FontSize="13"/>
+                                       BorderBrush="Transparent" MaxWidth="278" FontSize="13"/>
                                     <componentes:TextoConBorde Texto="Nombre" ColorDeBorde="#2C3E50" ColorDeRelleno="White" 
                                                       Tamaño="11" Grosor="3" HorizontalAlignment="Left" 
                                                       VerticalAlignment="Top" Margin="5,0,0,0"/>
@@ -107,10 +107,10 @@
                                 </Border.Effect>
                                 <Grid>
                                     <hc:TextBox hc:InfoElement.Placeholder="Ingrese una descripción detallada..." AcceptsReturn="True" 
-                                       x:Name="Descripción"
+                                       x:Name="Descripción" MaxWidth="278"
                                        TextAlignment="Justify" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" 
                                        BorderBrush="Transparent" Height="200" VerticalContentAlignment="Top" 
-                                       HorizontalContentAlignment="Left" FontSize="13"/>
+                                       HorizontalContentAlignment="Left" FontSize="13" Padding="5"/>
                                     <componentes:TextoConBorde Texto="Descripción" ColorDeBorde="#2C3E50" ColorDeRelleno="White" 
                                                       Tamaño="11" Grosor="3" HorizontalAlignment="Left" 
                                                       VerticalAlignment="Top" Margin="5,0,0,0"/>
@@ -118,24 +118,20 @@
                             </Border>
                         </StackPanel>
                         <!-- Columna derecha: Información específica según tipo -->
-                        <Border Grid.Column="1" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" 
-                       CornerRadius="8" Padding="20" VerticalAlignment="Top">
+                        <Border Grid.Column="1" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="8" Padding="20" VerticalAlignment="Top">
                             <Border.Effect>
                                 <DropShadowEffect Color="#CCCCCC" Direction="315" ShadowDepth="2" BlurRadius="10" Opacity="0.2"/>
                             </Border.Effect>
-
                             <!-- Título de sección -->
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-
                                 <TextBlock Grid.Row="0" Text="Información Específica" FontWeight="SemiBold" 
                                   FontSize="16" Foreground="#2C3E50" Margin="0,0,0,15"/>
-
                                 <!-- Contenedor de campos específicos con un ScrollViewer -->
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="400">
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                                     <Grid Margin="0,10,0,0">
                                         <!-- AGENDA CONTROLES -->
                                         <hc:UniformSpacingPanel Spacing="15" Orientation="Vertical" x:Name="ControlesAGENDA" Visibility="Collapsed">
@@ -204,7 +200,6 @@
                                                 </Grid>
                                             </Border>
                                         </hc:UniformSpacingPanel>
-
                                         <!-- INVENTARIO CONTROLES -->
                                         <hc:UniformSpacingPanel Spacing="15" Orientation="Vertical" x:Name="ControlesINVENTARIO" Visibility="Collapsed">
                                             <!-- Cantidad -->
@@ -245,7 +240,7 @@
                                                       PreviewTextInput="PreviewTextoNumerico" PreviewKeyDown="PreviewKeyNumerico" 
                                                       BorderThickness="0" Height="40"
                                                       Margin="5,0,0,0"/>
-                                                    <componentes:TextoConBorde Grid.ColumnSpan="2" Texto="Costo" ColorDeBorde="#2C3E50" 
+                                                    <componentes:TextoConBorde Grid.ColumnSpan="2" Texto="Costo por unidad" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
                                                                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
@@ -268,7 +263,6 @@
                                                 </Grid>
                                             </Border>
                                         </hc:UniformSpacingPanel>
-
                                         <!-- PROYECTO CONTROLES -->
                                         <hc:UniformSpacingPanel Spacing="15" Orientation="Vertical" x:Name="ControlesPROYECTO" Visibility="Collapsed">
                                             <!-- Cliente -->
@@ -287,7 +281,6 @@
                                                                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
-
                                             <!-- Total / Pagado -->
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
@@ -335,7 +328,6 @@
                                                     </Grid>
                                                 </Border>
                                             </Grid>
-
                                             <!-- Fecha Creación -->
                                             <Border Background="White" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6">
                                                 <Grid>
@@ -346,7 +338,6 @@
                                                                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0"/>
                                                 </Grid>
                                             </Border>
-
                                             <!-- Progreso -->
                                             <Border Background="White" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6" Padding="0,15,0,15">
                                                 <Grid>
@@ -380,6 +371,93 @@
                                                     <componentes:TextoConBorde Texto="Progreso" ColorDeBorde="#2C3E50" 
                                                                       ColorDeRelleno="White" Tamaño="11" Grosor="3"
                                                                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,-10,0,0"/>
+                                                </Grid>
+                                            </Border>
+                                            <!-- Editables -->
+                                            <Border x:Name="SecciónEditables" Background="White" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6" Padding="0,15,0,15" Visibility="Collapsed">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Lista horizontal de archivos -->
+                                                    <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                                        <ItemsControl x:Name="EditablesLista" Margin="10,5,10,5">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Horizontal"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Margin="5" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="4">
+                                                                        <Grid Width="120" Height="120">
+                                                                            <Grid.RowDefinitions>
+                                                                                <RowDefinition Height="*"/>
+                                                                                <RowDefinition Height="Auto"/>
+                                                                                <RowDefinition Height="Auto"/>
+                                                                            </Grid.RowDefinitions>
+
+                                                                            <!-- Icono según tipo de archivo -->
+                                                                            <Image Grid.Row="0" Source="{Binding IconoSource}" Stretch="Uniform" Width="40" Height="40"/>
+
+                                                                            <!-- Nombre del archivo -->
+                                                                            <TextBlock Grid.Row="1" Text="{Binding NombreArchivo}" 
+                                           HorizontalAlignment="Center" 
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="5,2"/>
+
+                                                                            <!-- Tipo de archivo -->
+                                                                            <TextBlock Grid.Row="2" Text="{Binding TipoArchivo}" 
+                                           HorizontalAlignment="Center"
+                                           FontSize="10"
+                                           Opacity="0.7"
+                                           Margin="0,0,0,5"/>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ScrollViewer>
+
+                                                    <!-- Botón para agregar archivos -->
+                                                    <Button Grid.Row="1" x:Name="AgregarEditableBtn" Content="Agregar archivo" 
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                Margin="0,10,10,0" Padding="10,5" Click="AgregarEditable"/>
+
+                                                    <componentes:TextoConBorde Texto="Editables" ColorDeBorde="#2C3E50" 
+                  ColorDeRelleno="White" Tamaño="11" Grosor="3"
+                  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,-10,0,0"/>
+                                                </Grid>
+                                            </Border>
+                                            <!-- Resultados -->
+                                            <Border x:Name="SecciónResultados" Background="White" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6" Padding="0,15,0,15" Visibility="Collapsed">
+                                                <Grid>
+                                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                                        <ItemsControl x:Name="ResultadosCarrusel" Margin="10,5,10,5">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Horizontal"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Margin="5" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="4">
+                                                                        <Grid Width="150" Height="150">
+                                                                            <Image Source="{Binding ImagenSource}" Stretch="Uniform" Margin="5"/>
+                                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                                                                                <TextBlock Text="{Binding Tipo}" Margin="0,0,0,5" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Black"/>
+                                                                                <TextBlock Text="{Binding Nombre}" Margin="0,0,0,5" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                                            </StackPanel>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ScrollViewer>
+                                                    <componentes:TextoConBorde Texto="Resultados" ColorDeBorde="#2C3E50" ColorDeRelleno="White" Tamaño="11" Grosor="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,-10,0,0"/>
                                                 </Grid>
                                             </Border>
                                         </hc:UniformSpacingPanel>

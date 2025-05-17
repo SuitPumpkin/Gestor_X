@@ -5,5 +5,8 @@
     <Setting Name="UbicaciónProyectos" Type="System.String" Scope="User">
       <Value Profile="(Default)">\\SuitPumpkin\Trabajo\Bases de Datos\Proyectos</Value>
     </Setting>
+    <Setting Name="UbicaciónDB" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">//SuitPumpkin/Trabajo/Bases de Datos/GestorX.db</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

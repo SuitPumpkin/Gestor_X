@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace GestorX.Pestañas
 {
@@ -59,9 +60,7 @@ namespace GestorX.Pestañas
         /// </summary>
         public class BaseDeDatos
         {
-            //TODO: mover la ruta de UbicaciónDB a los settings del sistema (no del usuario) de manera que no sea visible en el codigo
-            public static string UbicaciónDB = "//SuitPumpkin/Trabajo/Bases de Datos/GestorX.db";
-            private static string connectionString = $@"Data Source={UbicaciónDB};Version=3;";
+            public static string connectionString = $@"Data Source={Settings.Default.UbicaciónDB};Version=3;";
             public static event Action BaseDeDatosActualizada;
             public static void NotificarActualizacion()
             {
@@ -122,9 +121,12 @@ namespace GestorX.Pestañas
                 }
             }
         }
+        public class Maquetador
+        {
+            //aqui poner todo lo necesario para maquetar en un archivo de mockup
+        }
         public class Ubicaciones
         {
-            //TODO: Mover todas estas rutas a los settings del usuario (no del sistema) para que el usuario lo pueda modificar mediante los ajustes
             public static string CarpetaProyectos { get; } = Settings.Default.UbicaciónProyectos;
         }
         public enum Entidad
@@ -302,6 +304,7 @@ namespace GestorX.Pestañas
             public string CarpetaEditables{get{return $"{Carpeta}/Editables";}}
             public string CarpetaMockups{get{return $"{Carpeta}/Mockups";}}
             public string CarpetaResultados{get{return $"{Carpeta}/Resultados";}}
+            public string CarpetaRecursos{get{return $"{Carpeta}/Recursos";}}
 
             /// <summary>
             /// Añade un Item a los Proyectos
@@ -320,10 +323,30 @@ namespace GestorX.Pestañas
                     new SQLiteParameter("@FechaCreación", Item.FechaCreación),
                     new SQLiteParameter("@Cliente", Item.Cliente)
                     );
-                Directory.CreateDirectory(Item.Carpeta);
-                Directory.CreateDirectory(Item.CarpetaEditables);
-                Directory.CreateDirectory(Item.CarpetaMockups);
-                Directory.CreateDirectory(Item.CarpetaResultados);
+                using (SQLiteConnection conexion = new SQLiteConnection(BaseDeDatos.connectionString))
+                {
+                    conexion.Open();
+                    using (SQLiteCommand comando = new SQLiteCommand("SELECT seq FROM sqlite_sequence WHERE name = 'Proyecto'", conexion))
+                    {
+                        var resultado = comando.ExecuteScalar();
+                        if (resultado != null)
+                        {
+                            Item.ID = Convert.ToString(resultado);
+                        }
+                    }
+                }
+                if (Item.ID != string.Empty)
+                {
+                    Directory.CreateDirectory(Item.Carpeta);
+                    Directory.CreateDirectory(Item.CarpetaEditables);
+                    Directory.CreateDirectory(Item.CarpetaMockups);
+                    Directory.CreateDirectory(Item.CarpetaResultados);
+                    Directory.CreateDirectory(Item.CarpetaRecursos);
+                }
+                else
+                {
+                    Debug.WriteLine("No se pudo obtener el ID del proyecto creado y no se crearon sus subcarpetas.");
+                }
             }
             /// <summary>
             /// Lee todos los Items de los Proyectos
